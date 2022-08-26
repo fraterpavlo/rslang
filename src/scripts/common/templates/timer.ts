@@ -2,7 +2,7 @@ import { Control } from "./control";
 
 export class Timer extends Control{
   onTimeout!: ()=>void;
-  timer!: number;
+  timerId!: number;
   initialTime!:number;
 
   constructor(parentNode:HTMLElement){
@@ -11,7 +11,7 @@ export class Timer extends Control{
 
   start(time:number){
     this.initialTime = time;
-    if (this.timer){
+    if (this.timerId){
       this.stop();
     }
     let currentTime = time;
@@ -19,7 +19,8 @@ export class Timer extends Control{
       this.node.textContent = `${currentTime} / ${this.initialTime}`;
     }
     render(time);
-    this.timer = window.setInterval(()=>{
+
+    this.timerId = window.setInterval(()=>{ 
       currentTime--;
       render(currentTime);
       if (currentTime <=0){
@@ -27,9 +28,10 @@ export class Timer extends Control{
         this.stop();
       }
     }, 1000);
+    
   }
 
   stop(){
-    window.clearInterval(this.timer);
+    window.clearInterval(this.timerId);
   }
 }

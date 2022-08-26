@@ -4,8 +4,9 @@ import { CategoriesPage } from "./categoriesPage";
 import { GameFieldPage } from "./gameFieldPage";
 import { GameSettingsModel } from './gameSettingsModel';
 import { GameDataModel } from "./gameDataModel";
-import { IWordData, IGameSettings } from './interfaces';
+import { IWordData, IGameSettings, ELocalSoundsUrlList } from './interfaces';
 import { GameOverPage } from "./gameOverPage";
+import { SoundManager } from "./soundManager";
 
 export class AudioChallengeApp extends Control {
   dataModel: GameDataModel;
@@ -14,13 +15,20 @@ export class AudioChallengeApp extends Control {
   constructor(parentNode: HTMLElement | null) {
     super(parentNode, 'div', ['main-wrapper']);
 
+    const preloader = new Control(this.node, 'div', ['preloader'], 'LOADING...');
     this.settingsModel = new GameSettingsModel();
     this.dataModel = new GameDataModel();
 
-    this.categoriesCycle();
+    SoundManager.preload().then(() => {
+      preloader.destroy();
+      this.categoriesCycle();
+    });
+
+
+    // this.categoriesCycle();
   }
 
-  private categoriesCycle(){
+  private categoriesCycle() {
     const gameSettings = this.settingsModel.getData();
     const categories = new CategoriesPage(this.node, gameSettings);
 
@@ -57,6 +65,7 @@ export class AudioChallengeApp extends Control {
       this.categoriesCycle();
     }
     gameField.onFinish = (results)=>{
+      SoundManager.playSound(ELocalSoundsUrlList.applause);
       gameField.destroy();
       const gameOverPage = new GameOverPage(this.node, results);
       gameOverPage.onHome = ()=>{

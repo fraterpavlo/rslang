@@ -6,7 +6,6 @@ export interface IGameOptions {
 }
 
 //GameDataModel
-
 export interface IWordData {
   id: string;
   group: number;
@@ -44,11 +43,27 @@ export interface IWordDataWithAnswers {
 }
 
 //AudioChallengeSettingsModel
-
 export interface IGameSettings{
   levelAmount:number,
   questionsInGameAmount:number,
   answersInRoundAmount:number,
   time:number;
   timeEnable:boolean;
+}
+
+//SoundManagerClass
+export enum ELocalSoundsUrlList{
+  applause = '../../assets/audio/applause.mp3',
+  success = '../../assets/audio/success.mp3',
+  fail = '../../assets/audio/fail.mp3', 
+}
+
+//GameFieldPage
+export interface IAnswerData{
+  wordId: string;
+  word: string;
+  wordTranscription: string;
+  wordTranslate: string;
+  wordAudioURL: string;
+  answerResult: boolean;
 }

@@ -1,14 +1,15 @@
 import { Control } from "../common/templates/control";
+import { IAnswerData } from "./interfaces";
 
 export class GameOverPage extends Control{
   onNext!: ()=>void;
   onHome!: ()=>void;
 
-  constructor(parentNode:HTMLElement, results:boolean[]){
+  constructor(parentNode:HTMLElement, results:IAnswerData[]){
     super(parentNode, 'div', ['page', 'game-over-page']);
 
     const resultIndicator = new Control(this.node, 'div', ['game-over-page__resultIndicator'], '');
-    resultIndicator.node.textContent = results.map((it:boolean)=>it?'+':'-').join(' ');
+    resultIndicator.node.textContent = results.map((answerData:IAnswerData)=>answerData.answerResult?'+':'-').join(' ');
 
     const nextButton = new Control(this.node, 'button', ['game-over-page__next-btn'], 'next');
     nextButton.node.onclick = ()=>{
