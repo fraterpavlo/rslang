@@ -1,9 +1,9 @@
 //AudioChallengeApp
-export interface IGameOptions {
-  // categoryIndex: number;
-  wordsData: IWordData[];
-  gameSettings: IGameSettings,
-}
+// export interface IGameOptions {
+//   // categoryIndex: number;
+//   wordsData: IWordData[];
+//   gameSettings: IGameSettings,
+// }
 
 //GameDataModel
 export interface IWordData {

@@ -1,44 +1,58 @@
 import { Control } from "../common/templates/control";
 import { Timer } from "../common/templates/timer";
 import { getRandomNum } from "../common/utils/utils";
-import { IGameOptions, IWordData, IWordDataWithAnswers, IGameSettings, IAnswerData } from './interfaces';
+import { IWordData, IWordDataWithAnswers, IGameSettings, IAnswerData } from './interfaces';
 import { QuestionView } from "./questionView";
+
+//!пофиксить баг с таймером, когда он не стопается если закрыть страницу игры до того, как проиграет аудио вопроса
 
 export class GameFieldPage extends Control{
   onBack!: ()=>void;
   onHome!: ()=>void;
   onFinish!: (results:IAnswerData[])=>void;
-  // gameOptions: IGameOptions;
-  progressIndicator: Control<HTMLElement>;
-  results: IAnswerData[];
-  answersIndicator: Control<HTMLElement>;
-  timer: Timer;
+  // private gameSettings: IGameSettings;
+  // private wordsData: IWordDataWithAnswers[];
+  private results: IAnswerData[];
+  private progressIndicator: Control<HTMLElement>;
+  private answersIndicator: Control<HTMLElement>;
+  private timer: Timer;
+  private questionView!: QuestionView;
+  private nextQuestionButton!: Control<HTMLElement>;
+  private seeAnswerButton!: Control<HTMLElement>;
+  bindedWithThisKeyboardListener: (event: KeyboardEvent) => void;
+
 
   constructor(
-    parentNode:HTMLElement, gameOptions: IGameOptions) {
+    parentNode:HTMLElement, wordsData: IWordData[], gameSettings: IGameSettings) {
     super(parentNode, 'div', ['game-page', 'page']);
-    // this.gameOptions =  gameOptions;
+    const wordsDataWithAnswers = this.getWordsDataWithAnswers(wordsData, gameSettings.answersInRoundAmount);
+    // this.wordsData = wordsDataWithAnswers;
+    // this.gameSettings =  gameSettings;
+    //! спросить как правильнее работать с данными. присваивать их к инстансу класса или прокидывать в функции аргументами
     this.results = [];
 
     const backButton = new Control(this.node, 'button', ['game-page__back-btn'], 'back');
-    backButton.node.onclick = ()=>{
-      this.onBack();
-    }
+    // backButton.node.onclick = ()=>{
+    //   this.onBack();
+    // }
+    backButton.node.addEventListener('click', ()=>{this.onBack()}, {once: true});
 
     const homeButton = new Control(this.node, 'button', ['game-page__home-btn'], 'home');
-    homeButton.node.onclick = ()=>{
-      this.onHome();
-    }
+    // homeButton.node.onclick = ()=>{
+    //   this.onHome();
+    // }
+    homeButton.node.addEventListener('click', ()=>{this.onHome()}, {once: true});
 
     this.timer = new Timer(this.node);
     this.progressIndicator = new Control(this.node, 'div', ['progressIndicator'], '');
     this.answersIndicator = new Control(this.node, 'div', ['answersIndicator'], '');
-
-    const wordsDataWithAnswers = this.getWordsDataWithAnswers(gameOptions.wordsData, gameOptions.gameSettings.answersInRoundAmount);
     
-    this.questionCycle(wordsDataWithAnswers, gameOptions.gameSettings, 0, ()=>{
+    this.questionCycle(wordsDataWithAnswers, gameSettings, 0, ()=>{
       this.onFinish(this.results);
     });
+
+    this.bindedWithThisKeyboardListener = this.keyboardListener.bind(this);
+    window.addEventListener('keydown', this.bindedWithThisKeyboardListener);
   }
 
   getWordsDataWithAnswers(wordsData: IWordData[], answersCount: number) {
@@ -74,80 +88,100 @@ export class GameFieldPage extends Control{
     return resultWordsData;
   }
 
-  questionCycle(wordsData: IWordDataWithAnswers[], gameSettings: IGameSettings, questionIndex:number, onFinish:()=>void) {
+  questionCycle(wordsData: IWordDataWithAnswers[], gameSettings: IGameSettings, questionIndex:number, onFinish:(results:IAnswerData[])=>void) {
 
     if (questionIndex >= wordsData.length){ 
-      onFinish();
+      onFinish(this.results);
       return;
     }
 
     this.progressIndicator.node.textContent = `${questionIndex+1} / ${wordsData.length}`;
     this.answersIndicator.node.textContent = this.results.map((answerData: IAnswerData)=>answerData.answerResult?'+':'-').join(' ');
 
-    const questionView = new QuestionView(this.node, wordsData[questionIndex]);
-    questionView.sumUpQuestion = (answerData: IAnswerData) => {
+    this.questionView = new QuestionView(this.node, wordsData[questionIndex]);
+    this.questionView.sumUpQuestion = (answerData: IAnswerData) => {
       this.timer.stop();
       this.results.push(answerData);
-      seeAnswerButton.destroy();
+      this.seeAnswerButton.destroy();
 
-      const nextQuestionButton = new Control(this.node, 'button', ['game-page__next-question-btn'], '->-->--->');
-      nextQuestionButton.node.onclick = ()=>{
-          questionView.destroy();
-          nextQuestionButton.destroy();
-          this.questionCycle(wordsData, gameSettings, questionIndex+1, onFinish);
-      }
+      this.nextQuestionButton = new Control(this.node, 'button', ['game-page__next-question-btn'], '->-->--->');
+      // nextQuestionButton.node.onclick = ()=>{
+      //     this.questionView.destroy();
+      //     nextQuestionButton.destroy();
+      //     this.questionCycle(wordsData, gameSettings, questionIndex+1, onFinish);
+      // }
+      this.nextQuestionButton.node.addEventListener('click', this.onNextQuestionButton.bind(this, wordsData, gameSettings, questionIndex, onFinish));
     };
 
-    const seeAnswerButton = new Control(this.node, 'button', ['game-page__see-answer-btn'], '***показать ответ***');
-    seeAnswerButton.node.onclick = ()=>{
-      questionView.onAnswerListener(null, wordsData[questionIndex], false);
-    }
+    this.seeAnswerButton = new Control(this.node, 'button', ['game-page__see-answer-btn'], '***показать ответ***');
+    // seeAnswerButton.node.onclick = ()=>{
+    //   this.questionView.onAnswerListener(null, wordsData[questionIndex], false);
+    // }
+    this.seeAnswerButton.node.addEventListener('click', this.onSeeAnswerButton.bind(this, wordsData[questionIndex]));
 
     if (gameSettings.timeEnable){
-      questionView.questionAudio.addEventListener('ended', () => {
+      this.questionView.questionAudio.addEventListener('ended', () => {
         this.timer.start(gameSettings.time);
         this.timer.onTimeout = ()=>{
-          questionView.onAnswerListener(null, wordsData[questionIndex], false);
-          // questionView.destroy();
-          // this.results.push(false);
-          // SoundManager.playSound(ELocalSoundsUrlList.fail);
-          // this.questionCycle(wordsData, gameSettings, questionIndex+1, onFinish);
+          this.questionView.onAnswerListener(null, wordsData[questionIndex], false);
         }
       }, {once: true})
     }
-    // questionView.onAnswer = (answerIndex: number | null, wordData: IWordDataWithAnswers, answered: boolean = true) => {
-    //   this.timer.stop();
-    //   const isCorrectAnswer = (answerIndex === wordData.correctAnswerIndex);
-    //   isCorrectAnswer 
-    //   ? SoundManager.playSound(ELocalSoundsUrlList.success)
-    //   : SoundManager.playSound(ELocalSoundsUrlList.fail);
+  }
 
-    //   const correctAnswerBtn = questionView.answersBtnArr[wordData.correctAnswerIndex].node;
-    //   correctAnswerBtn.style.backgroundColor = "green";
-    //   if (answered && !isCorrectAnswer) {
-    //     if (answerIndex === null) return console.error(`invalid answerIndex for mark currentWrongAnswerBtn`);
-    //     const currentWrongAnswerBtn = questionView.answersBtnArr[answerIndex!].node;
-    //     currentWrongAnswerBtn.style.backgroundColor = "red";
-    //   }
+  onSeeAnswerButton(wordData: IWordDataWithAnswers) {
+    this.questionView.onAnswerListener(null, wordData, false);
+  }
 
-    //   const answerData = {
-    //     wordId: wordData.id,
-    //     word: wordData.word,
-    //     wordTranscription: wordData.transcription,
-    //     wordTranslate: wordData.wordTranslate,
-    //     wordAudioURL: wordData.audio,
-    //     answerResult: isCorrectAnswer
-    //   }
-    //   this.results.push(answerData);
-  
-    //   questionView.questionAudioBtn.destroy();
-    //   new CorrectAnswerView(questionView.questionInfoWrapper.node, wordData);
+  onNextQuestionButton(wordsData: IWordDataWithAnswers[], gameSettings: IGameSettings, questionIndex: number, onFinish: (results:IAnswerData[])=>void) {
+    this.questionView.destroy();
+    this.nextQuestionButton.destroy();
+    this.questionCycle(wordsData, gameSettings, questionIndex+1, onFinish);
+  }
 
-    //   this.questionCycle(wordsData, gameSettings, questionIndex+1, onFinish);
-    // };
+  keyboardListener(event: KeyboardEvent) {
+    event.preventDefault();
+    if (event.repeat) return;
+    const clickedKeyCode = event.code;
+
+    switch(clickedKeyCode) {
+      case 'Escape':
+        this.onHome();
+        break;
+      case 'Backspace':
+        this.onBack();
+        break;
+      case 'Space':
+        this.questionView.questionAudioBtn.node.click();
+        break;
+      case 'Digit1':
+        this.questionView.answersBtnArr[0].node.click();
+        break;
+      case 'Digit2':
+        this.questionView.answersBtnArr[1].node.click();
+        break;
+      case 'Digit3':
+        this.questionView.answersBtnArr[2].node.click();
+        break;
+      case 'Digit4':
+        this.questionView.answersBtnArr[3].node.click();
+        break;
+      case 'Digit5':
+        this.questionView.answersBtnArr[4].node.click();
+        break;
+      case 'Enter':
+        this.questionView.answerShown
+          ? this.nextQuestionButton.node.click()
+          : this.seeAnswerButton.node.click();
+        break;
+      default:
+        console.log(`unusable key ${clickedKeyCode}`);
+        return;
+    }
   }
 
   destroy(){
+    window.removeEventListener('keydown', this.bindedWithThisKeyboardListener);
     this.timer.stop();
     super.destroy();
   }

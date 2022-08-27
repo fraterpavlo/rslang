@@ -48,13 +48,8 @@ export class AudioChallengeApp extends Control {
     const questionsData: IWordData[] = await this.dataModel.getWords(categoryIndex, randomPageInCategory);
     const randomSortedWordsData = questionsData.sort(() => getRandomNum(-1, 1));
     const gameSettings: IGameSettings = this.settingsModel.getData();
-    const gameOptions = {
-      // categoryIndex,
-      wordsData: randomSortedWordsData,
-      gameSettings,
-    }
 
-    const gameField: GameFieldPage = new GameFieldPage(this.node, gameOptions);
+    const gameField: GameFieldPage = new GameFieldPage(this.node, randomSortedWordsData, gameSettings);
     gameField.onHome = ()=>{
       gameField.destroy();
       //!to do onHome function

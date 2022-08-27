@@ -11,17 +11,20 @@ export class QuestionView extends Control {
   questionAudioBtn: Control<HTMLElement>;
   questionInfoWrapper: Control<HTMLElement>;
   answersBtnArr: Control<HTMLElement>[];
+  answerShown: boolean;
 
   constructor(parentNode: HTMLElement, wordData: IWordDataWithAnswers) {
     super(parentNode, 'div', ['game-page__question-container', 'question-view']);
+    this.answerShown = false;
     this.questionAudio = SoundManager.playSound(`${baseUrl}/${wordData.audio}`);
 
     this.questionInfoWrapper = new Control(this.node, 'div', ['question-view__question-info-wrapper', 'question-info']);
     this.questionAudioBtn = new Control(this.questionInfoWrapper.node, 'button', ['question-info__question-audio-btn'], 'кнопка звука');
-    this.questionAudioBtn.node.onclick = () => {
-      if (SoundManager.currentAudio) return;
-      SoundManager.playSound(`${baseUrl}/${wordData.audio}`);
-    }
+    // this.questionAudioBtn.node.onclick = () => {
+    //   if (SoundManager.currentAudio) return;
+    //   SoundManager.playSound(`${baseUrl}/${wordData.audio}`);
+    // }
+    this.questionAudioBtn.node.addEventListener('click', this.onQuestionAudioBtnListener.bind(this, wordData.audio))
 
     this.answersBtnArr = wordData.answers.map((answer, answerIndex) => {
       const button = new Control(this.node, 'button', ['question-view__answer-btn'], answer.toString());
@@ -35,7 +38,13 @@ export class QuestionView extends Control {
     })
   }
 
+  onQuestionAudioBtnListener(audioURL: string) {
+    SoundManager.playSound(`${baseUrl}/${audioURL}`);
+  }
+
   onAnswerListener(answerIndex: number | null, wordData: IWordDataWithAnswers, answered: boolean = true) {
+    if (this.answerShown) return;
+    this.answerShown = true;
     const isCorrectAnswer = (answerIndex === wordData.correctAnswerIndex);
     isCorrectAnswer 
       ? SoundManager.playSound(ELocalSoundsUrlList.success)
