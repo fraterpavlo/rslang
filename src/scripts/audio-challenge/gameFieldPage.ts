@@ -12,10 +12,11 @@ export class GameFieldPage extends Control{
   onFinish!: (results:IAnswerData[])=>void;
   // private gameSettings: IGameSettings;
   // private wordsData: IWordDataWithAnswers[];
+  //! спросить как правильнее работать с данными. присваивать их к инстансу класса или прокидывать в функции аргументами
   private results: IAnswerData[];
   private progressIndicator: Control<HTMLElement>;
   private answersIndicator: Control<HTMLElement>;
-  private timer: Timer;
+  private timer!: Timer;
   private questionView!: QuestionView;
   private nextQuestionButton!: Control<HTMLElement>;
   private seeAnswerButton!: Control<HTMLElement>;
@@ -28,7 +29,6 @@ export class GameFieldPage extends Control{
     const wordsDataWithAnswers = this.getWordsDataWithAnswers(wordsData, gameSettings.answersInRoundAmount);
     // this.wordsData = wordsDataWithAnswers;
     // this.gameSettings =  gameSettings;
-    //! спросить как правильнее работать с данными. присваивать их к инстансу класса или прокидывать в функции аргументами
     this.results = [];
 
     const backButton = new Control(this.node, 'button', ['game-page__back-btn'], 'back');
@@ -43,7 +43,6 @@ export class GameFieldPage extends Control{
     // }
     homeButton.node.addEventListener('click', ()=>{this.onHome()}, {once: true});
 
-    this.timer = new Timer(this.node);
     this.progressIndicator = new Control(this.node, 'div', ['progressIndicator'], '');
     this.answersIndicator = new Control(this.node, 'div', ['answersIndicator'], '');
     
@@ -98,7 +97,7 @@ export class GameFieldPage extends Control{
     this.progressIndicator.node.textContent = `${questionIndex+1} / ${wordsData.length}`;
     this.answersIndicator.node.textContent = this.results.map((answerData: IAnswerData)=>answerData.answerResult?'+':'-').join(' ');
 
-    this.questionView = new QuestionView(this.node, wordsData[questionIndex]);
+    this.questionView = new QuestionView(this.node, wordsData[questionIndex]/*, gameSettings*/);
     this.questionView.sumUpQuestion = (answerData: IAnswerData) => {
       this.timer.stop();
       this.results.push(answerData);
@@ -120,12 +119,20 @@ export class GameFieldPage extends Control{
     this.seeAnswerButton.node.addEventListener('click', this.onSeeAnswerButton.bind(this, wordsData[questionIndex]));
 
     if (gameSettings.timeEnable){
-      this.questionView.questionAudio.addEventListener('ended', () => {
+      this.timer = new Timer(this.node, 'div', ['game-page__timer']);
+      // this.questionView.questionAudio.addEventListener('ended', () => {
+      //   this.timer.start(gameSettings.time);
+      //   this.timer.onTimeout = ()=>{
+      //     this.questionView.onAnswerListener(null, wordsData[questionIndex], false);
+      //   }
+      // }, {once: true});
+      this.questionView.questionAudio.onended = () => {
         this.timer.start(gameSettings.time);
         this.timer.onTimeout = ()=>{
           this.questionView.onAnswerListener(null, wordsData[questionIndex], false);
-        }
-      }, {once: true})
+        };
+        this.questionView.questionAudio.onended = null;
+      };
     }
   }
 
@@ -181,6 +188,8 @@ export class GameFieldPage extends Control{
   }
 
   destroy(){
+    if (!this.questionView.questionAudio.ended) this.questionView.questionAudio.onended = null;
+    // this.questionView.destroy();
     window.removeEventListener('keydown', this.bindedWithThisKeyboardListener);
     this.timer.stop();
     super.destroy();

@@ -1,22 +1,31 @@
 import { Control } from "../common/templates/control";
-import { ELocalSoundsUrlList, IAnswerData, IWordDataWithAnswers } from './interfaces';
+import { ELocalSoundsUrlList, IAnswerData, IWordDataWithAnswers/*, IGameSettings*/ } from './interfaces';
 import { baseUrl } from "./gameDataModel";
 import { SoundManager } from "./soundManager";
 import { CorrectAnswerView } from "./correctAnswerView";
+// import { Timer } from "../common/templates/timer";
 
 export class QuestionView extends Control {
   // onAnswer!: (answerIndex:number | null, wordData: IWordDataWithAnswers, answered?: boolean)=>void;
   sumUpQuestion!: (answerData: IAnswerData)=>void;
+  //! узнать, лучше делать одну большую функцию в родительском классе или разделить на две, написав часть функции прямо тут
+  // private timer!: Timer;
+    //! решить, где лучше делать таймер - в классе вопроса или в странице игры. через .onended или через addEventListener
   questionAudio: HTMLAudioElement;
   questionAudioBtn: Control<HTMLElement>;
   questionInfoWrapper: Control<HTMLElement>;
   answersBtnArr: Control<HTMLElement>[];
   answerShown: boolean;
+  // bindedWithThisInitTimer!: () => void;
 
-  constructor(parentNode: HTMLElement, wordData: IWordDataWithAnswers) {
+  constructor(parentNode: HTMLElement, wordData: IWordDataWithAnswers/*, gameSettings: IGameSettings*/) {
     super(parentNode, 'div', ['game-page__question-container', 'question-view']);
     this.answerShown = false;
     this.questionAudio = SoundManager.playSound(`${baseUrl}/${wordData.audio}`);
+    // if (gameSettings.timeEnable){
+    //   this.bindedWithThisInitTimer = this.initTimer.bind(this, gameSettings.time, wordData);
+    //   this.questionAudio.addEventListener('ended', this.bindedWithThisInitTimer, {once: true});
+    // }
 
     this.questionInfoWrapper = new Control(this.node, 'div', ['question-view__question-info-wrapper', 'question-info']);
     this.questionAudioBtn = new Control(this.questionInfoWrapper.node, 'button', ['question-info__question-audio-btn'], 'кнопка звука');
@@ -31,12 +40,19 @@ export class QuestionView extends Control {
 
       button.node.onclick = () => {
         this.onAnswerListener(answerIndex, wordData);
-        // this.sumUpQuestion();
       }
 
       return button;
     })
   }
+
+  // private initTimer(time: number, wordData: IWordDataWithAnswers) {
+  //   this.timer = new Timer(this.node, 'div', ['question-view__timer']);
+  //   this.timer.start(time);
+  //   this.timer.onTimeout = ()=>{
+  //     this.onAnswerListener(null, wordData, false);
+  //   }
+  // }
 
   onQuestionAudioBtnListener(audioURL: string) {
     SoundManager.playSound(`${baseUrl}/${audioURL}`);
@@ -45,6 +61,7 @@ export class QuestionView extends Control {
   onAnswerListener(answerIndex: number | null, wordData: IWordDataWithAnswers, answered: boolean = true) {
     if (this.answerShown) return;
     this.answerShown = true;
+    // this.timer.stop();
     const isCorrectAnswer = (answerIndex === wordData.correctAnswerIndex);
     isCorrectAnswer 
       ? SoundManager.playSound(ELocalSoundsUrlList.success)
@@ -72,4 +89,9 @@ export class QuestionView extends Control {
 
     this.sumUpQuestion(answerData);
   }
+
+  // destroy() {
+  //   if (!this.questionAudio.ended) this.questionAudio.removeEventListener('ended', this.bindedWithThisInitTimer);
+  //   super.destroy();
+  // }
 }

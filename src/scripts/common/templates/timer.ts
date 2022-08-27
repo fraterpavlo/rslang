@@ -5,8 +5,8 @@ export class Timer extends Control{
   timerId!: number;
   initialTime!:number;
 
-  constructor(parentNode:HTMLElement){
-    super(parentNode);
+  constructor(parentNode:HTMLElement, tagName = 'div', classesArr: string[] = []){
+    super(parentNode, tagName, classesArr);
   }
 
   start(time:number){
