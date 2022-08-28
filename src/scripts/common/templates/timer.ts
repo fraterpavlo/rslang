@@ -1,37 +1,40 @@
-import { Control } from "./control";
+import { Control } from './control';
 
-export class Timer extends Control{
-  onTimeout!: ()=>void;
+export class Timer extends Control {
+  onTimeout!: () => void;
   timerId!: number;
-  initialTime!:number;
+  initialTime!: number;
 
-  constructor(parentNode:HTMLElement, tagName = 'div', classesArr: string[] = []){
+  constructor(
+    parentNode: HTMLElement,
+    tagName = 'div',
+    classesArr: string[] = []
+  ) {
     super(parentNode, tagName, classesArr);
   }
 
-  start(time:number){
+  start(time: number) {
     this.initialTime = time;
-    if (this.timerId){
+    if (this.timerId) {
       this.stop();
     }
     let currentTime = time;
-    const render = (currentTime:number)=>{
+    const render = (currentTime: number) => {
       this.node.textContent = `${currentTime} / ${this.initialTime}`;
-    }
+    };
     render(time);
 
-    this.timerId = window.setInterval(()=>{ 
+    this.timerId = window.setInterval(() => {
       currentTime--;
       render(currentTime);
-      if (currentTime <=0){
+      if (currentTime <= 0) {
         this.onTimeout();
         this.stop();
       }
     }, 1000);
-    
   }
 
-  stop(){
+  stop() {
     window.clearInterval(this.timerId);
   }
 }

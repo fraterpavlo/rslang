@@ -1,44 +1,49 @@
-import { ELocalStorageKeys } from "../common/data/localstorageKeys";
+import { ELocalStorageKeys } from '../common/data/localstorageKeys';
 import { IGameSettings } from './interfaces';
 
-const defaultSettings:IGameSettings = {
+const defaultSettings: IGameSettings = {
   levelAmount: 6,
   questionsInGameAmount: 20,
   answersInRoundAmount: 5,
-  time:10,
-  timeEnable:true
-}
+  time: 10,
+  timeEnable: true,
+};
 export class GameSettingsModel {
   private settings: IGameSettings;
 
-  constructor(){
+  constructor() {
     this.settings = defaultSettings;
     this.loadFromStorage();
   }
 
-  loadFromStorage(){
-    const storageData = localStorage.getItem(ELocalStorageKeys.AudioChallengeSettings);
-    const checkStorageData = (data:string|null)=>{
+  loadFromStorage() {
+    const storageData = localStorage.getItem(
+      ELocalStorageKeys.AudioChallengeGameSettings
+    );
+    const checkStorageData = (data: string | null) => {
       return !!data;
-    }
-    if (!checkStorageData(storageData)){
+    };
+    if (!checkStorageData(storageData)) {
       this.settings = defaultSettings;
     } else {
-      const data:IGameSettings = JSON.parse(storageData!);
+      const data: IGameSettings = JSON.parse(storageData!);
       this.settings = data;
     }
   }
 
-  getData(){
+  getData() {
     return JSON.parse(JSON.stringify(this.settings));
   }
 
-  setData(data:IGameSettings){
+  setData(data: IGameSettings) {
     this.settings = data;
     this.saveToStorage();
   }
 
-  saveToStorage(){
-    localStorage.setItem(ELocalStorageKeys.AudioChallengeSettings, JSON.stringify(this.settings));
+  saveToStorage() {
+    localStorage.setItem(
+      ELocalStorageKeys.AudioChallengeGameSettings,
+      JSON.stringify(this.settings)
+    );
   }
 }

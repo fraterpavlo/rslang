@@ -1,10 +1,34 @@
+//GENERAL
+@import './styles/common/reset';
+@import './styles/common/mixins';
+//audio-challenge game
+@import "./styles/audio-challenge/common/variables";
+@import "./styles/audio-challenge/common/mixins";
+@import "./styles/audio-challenge/common/general";
+@import "./styles/audio-challenge/categoriesPage";
+@import "./styles/audio-challenge/gameFieldPage";
+@import "./styles/audio-challenge/questionView";
+@import "./styles/audio-challenge/gameOverPage";
+
+
+
+
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: darkslategrey;
-  color: white;
+  // background-color: darkslategrey;
+  // color: white;
   text-transform: uppercase;
+  overflow: hidden;
+}
+
+.container,
+[class*="__container"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

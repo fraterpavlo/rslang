@@ -1,22 +1,22 @@
-class SoundManagerClass{
+class SoundManagerClass {
   private localSoundsBaseURL = '../../assets/audio';
   private cache = new Map<string, Blob>();
-  private localSoundsNamesList:Array<string> = [
-    'applause',
-    'success',
-    'fail'
-  ];
+  private localSoundsNamesList: Array<string> = ['applause', 'success', 'fail'];
   currentAudio: HTMLAudioElement | null;
 
-  constructor(){
+  constructor() {
     this.currentAudio = null;
   }
 
-  async preload(){
-    Promise.all(this.localSoundsNamesList.map(name=>this.loadFile(`${this.localSoundsBaseURL}/${name}.mp3`)));
+  async preload() {
+    Promise.all(
+      this.localSoundsNamesList.map((name) =>
+        this.loadFile(`${this.localSoundsBaseURL}/${name}.mp3`)
+      )
+    );
   }
 
-  private async loadFile(url:string){
+  private async loadFile(url: string) {
     // return fetch(url).then(res=>res.blob());
     const res = await fetch(url);
     const resBlob = await res.blob();
@@ -24,26 +24,34 @@ class SoundManagerClass{
     return resBlob;
   }
 
-  playSound(url:string){    
+  playSound(url: string) {
     const cached = this.cache.get(url);
 
     let audio: HTMLAudioElement;
-    if (cached){
+    if (cached) {
       audio = new Audio(URL.createObjectURL(cached));
     } else {
       audio = new Audio(url);
       this.loadFile(url);
     }
 
-    audio.addEventListener('ended', () => {
-      this.currentAudio = null;
-    }, {once: true});
+    audio.addEventListener(
+      'ended',
+      () => {
+        this.currentAudio = null;
+      },
+      { once: true }
+    );
 
     if (this.currentAudio) {
-      this.currentAudio.addEventListener('ended', () => {
-        this.currentAudio = audio;
-        audio.play()
-      }, {once: true});
+      this.currentAudio.addEventListener(
+        'ended',
+        () => {
+          this.currentAudio = audio;
+          audio.play();
+        },
+        { once: true }
+      );
     } else {
       this.currentAudio = audio;
       audio.play();
@@ -53,11 +61,11 @@ class SoundManagerClass{
   }
 
   // ok(){
-  //   this.playSound('ok');  
+  //   this.playSound('ok');
   // }
 
   // fail(){
-  //   this.playSound('fail');  
+  //   this.playSound('fail');
   // }
 
   // playSound(name:string){

@@ -1,3 +1,3 @@
 export enum ELocalStorageKeys {
-  AudioChallengeSettings = 'AudioChallengeSettings',
+  AudioChallengeGameSettings = 'AudioChallengeGameSettings',
 }

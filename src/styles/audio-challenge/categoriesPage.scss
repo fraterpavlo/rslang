@@ -1,0 +1,11 @@
+.categories-page {
+  @include for-animated-controls-default-styles();
+
+  &.hide{
+    left: 100%;
+  }
+
+  &.show{
+    left: -100%;
+  }
+ }

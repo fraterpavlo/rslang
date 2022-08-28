@@ -1,0 +1,7 @@
+@mixin for-animated-controls-default-styles() {
+  position: relative;
+  transition-duration: $animating-control-animate-duration;
+  left: 0;
+  opacity: 1;
+  transform: translate(1);
+}

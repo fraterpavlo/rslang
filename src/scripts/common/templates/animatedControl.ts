@@ -1,63 +1,71 @@
-// import { Control } from "./control";
+import { IAnimatingClasses } from 'src/scripts/audio-challenge/interfaces';
+import { Control } from './control';
 
-// export class AnimatedControl extends Control{
-//   private animatedClasses: { show: string; hide: string; };
+export class AnimatedControl extends Control {
+  private animatingClasses: { hide: string; show: string };
 
-//   constructor(parentNode: HTMLElement | null, tagName = 'div', classesArr: string[] = [], content = '', animatedClasses = {show: 'to-right', hide: 'to-left',}) {
-//     super(parentNode, tagName, classesArr, content);
-//     this.animatedClasses = animatedClasses;
-//     this.node.classList.add(animatedClasses.show);
-//     this.node.classList.remove(animatedClasses.hide);
-//   }
+  constructor(
+    parentNode: HTMLElement | null,
+    tagName = 'div',
+    classesArr: string[],
+    animatingClasses: IAnimatingClasses = { hide: 'hide', show: 'show' },
+    content = ''
+  ) {
+    super(parentNode, tagName, classesArr, content);
+    this.animatingClasses = animatingClasses;
+    this.node.classList.add(animatingClasses.show);
+    this.animateIn();
+  }
 
-//   quickIn(){
-//     this.node.classList.remove(this.styles.hidden);
-//     console.log('quickIn');
-    
-//   }
+  // quickIn() {
+  //   this.node.classList.remove(this.classes.hidden);
+  //   console.log('quickIn');
+  // }
 
-//   quickOut(){
-//     this.node.classList.add(this.styles.hidden);
-//     console.log('quickOut');
-    
-//   }
+  // quickOut() {
+  //   this.node.classList.add(this.classes.hidden);
+  //   console.log('quickOut');
+  // }
 
-//   animateIn():Promise<void>{
-//     console.log('animateIn');
-    
-//     return new Promise((resolve)=>{
-//       requestAnimationFrame(()=>requestAnimationFrame(()=>{
-//         if (!this.node.classList.contains(this.styles.hidden)){
-//           resolve(null);
-//         }
-//         this.node.classList.remove(this.styles.hidden);
-//         this.node.ontransitionend = (e)=>{
-//           if (e.target !==this.node) return;
-//           this.node.ontransitionend = null;
-//           resolve(null);
-//         }
-//       }));
-//     })
-//   }
+  animateIn(): Promise<void> {
+    return new Promise((resolve) => {
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (!this.node.classList.contains(this.animatingClasses.show)) {
+            resolve();
+          }
+          this.node.classList.remove(this.animatingClasses.show);
+          this.node.ontransitionend = (e) => {
+            if (e.target !== this.node) return;
+            this.node.ontransitionend = null;
+            resolve();
+          };
+        })
+      );
+    });
+  }
 
-//   animateOut(): Promise<void>{
-//     console.log('animateOut');
-//     return new Promise((resolve)=>{
-//       requestAnimationFrame(()=>requestAnimationFrame(()=>{
-//         if (this.node.classList.contains(this.styles.hidden)){
-//           resolve(null);
-//           console.log(11111111);
-          
-//         }
-//         this.node.classList.add(this.styles.hidden);
-//         this.node.ontransitionend = (e)=>{
-//           if (e.target !==this.node) return;
-//           this.node.ontransitionend = null;
-//           resolve(null);
-//           console.log(2222222222);
-          
-//         }
-//       }));
-//     })
-//   }
-// }
+  animateOut(): Promise<void> {
+    return new Promise((resolve) => {
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (this.node.classList.contains(this.animatingClasses.hide)) {
+            resolve();
+          }
+          this.node.classList.add(this.animatingClasses.hide);
+          this.node.ontransitionend = (e) => {
+            if (e.target !== this.node) return;
+            this.node.ontransitionend = null;
+            resolve();
+            this.node.classList.remove(this.animatingClasses.hide);
+          };
+        })
+      );
+    });
+  }
+
+  async destroy(): Promise<void> {
+    await this.animateOut();
+    super.destroy();
+  }
+}

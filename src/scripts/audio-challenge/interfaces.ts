@@ -1,3 +1,9 @@
+//AnimatedControl
+export interface IAnimatingClasses {
+  hide: string;
+  show: string;
+}
+
 //AudioChallengeApp
 // export interface IGameOptions {
 //   // categoryIndex: number;
@@ -43,23 +49,23 @@ export interface IWordDataWithAnswers {
 }
 
 //AudioChallengeSettingsModel
-export interface IGameSettings{
-  levelAmount:number,
-  questionsInGameAmount:number,
-  answersInRoundAmount:number,
-  time:number;
-  timeEnable:boolean;
+export interface IGameSettings {
+  levelAmount: number;
+  questionsInGameAmount: number;
+  answersInRoundAmount: number;
+  time: number;
+  timeEnable: boolean;
 }
 
 //SoundManagerClass
-export enum ELocalSoundsUrlList{
+export enum ELocalSoundsUrlList {
   applause = '../../assets/audio/applause.mp3',
   success = '../../assets/audio/success.mp3',
-  fail = '../../assets/audio/fail.mp3', 
+  fail = '../../assets/audio/fail.mp3',
 }
 
 //GameFieldPage
-export interface IAnswerData{
+export interface IAnswerData {
   wordId: string;
   word: string;
   wordTranscription: string;
