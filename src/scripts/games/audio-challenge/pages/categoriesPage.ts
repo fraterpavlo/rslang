@@ -1,5 +1,5 @@
-import { AnimatedControl } from '../../common/templates/animatedControl';
-import { Control } from '../../common/templates/control';
+import { AnimatedControl } from '../../../common/templates/animatedControl';
+import { Control } from '../../../common/templates/control';
 import { IAnimatingClasses, IGameSettings } from '../interfaces';
 
 export class CategoriesPage extends AnimatedControl {

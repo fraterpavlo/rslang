@@ -1,6 +1,6 @@
-import { Control } from '../../common/templates/control';
+import { Control } from '../../../common/templates/control';
 import { IAnimatingClasses, IAnswerData } from '../interfaces';
-import { AnimatedControl } from '../../common/templates/animatedControl';
+import { AnimatedControl } from '../../../common/templates/animatedControl';
 
 export class GameOverPage extends AnimatedControl {
   onNext!: () => void;

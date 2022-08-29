@@ -1,4 +1,4 @@
-import { Control } from '../../../common/templates/control';
+import { Control } from '../../../../common/templates/control';
 import {
   ELocalSoundsUrlList,
   IAnimatingClasses,
@@ -6,9 +6,9 @@ import {
   IWordDataWithAnswers,
 } from '../../interfaces';
 import { baseUrl } from '../../gameDataModel';
-import { SoundManager } from '../../soundManager';
+import { SoundManager } from '../../../common/soundManager';
 import { CorrectAnswerView } from './correctAnswerView';
-import { AnimatedControl } from '../../../common/templates/animatedControl';
+import { AnimatedControl } from '../../../../common/templates/animatedControl';
 
 export class QuestionView extends AnimatedControl {
   // onAnswer!: (answerIndex:number | null, wordData: IWordDataWithAnswers, answered?: boolean)=>void;

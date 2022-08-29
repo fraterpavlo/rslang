@@ -1,7 +1,7 @@
-import { AnimatedControl } from '../../common/templates/animatedControl';
-import { Control } from '../../common/templates/control';
-import { Timer } from '../../common/templates/timer';
-import { getRandomNum } from '../../common/utils/utils';
+import { AnimatedControl } from '../../../common/templates/animatedControl';
+import { Control } from '../../../common/templates/control';
+import { Timer } from '../../../common/templates/timer';
+import { getRandomNum } from '../../../common/utils/utils';
 import {
   IWordData,
   IWordDataWithAnswers,

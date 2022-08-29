@@ -1,4 +1,4 @@
-import { ELocalStorageKeys } from '../common/data/localstorageKeys';
+import { ELocalStorageKeys } from '../../common/data/localstorageKeys';
 import { IGameSettings } from './interfaces';
 
 const defaultSettings: IGameSettings = {

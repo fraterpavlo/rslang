@@ -1,8 +1,8 @@
-import { Control } from '../../../common/templates/control';
+import { Control } from '../../../../common/templates/control';
 import { IAnimatingClasses, IWordDataWithAnswers } from '../../interfaces';
 import { baseUrl } from '../../gameDataModel';
-import { SoundManager } from '../../soundManager';
-import { AnimatedControl } from '../../../common/templates/animatedControl';
+import { SoundManager } from '../../../common/soundManager';
+import { AnimatedControl } from '../../../../common/templates/animatedControl';
 
 export class CorrectAnswerView extends AnimatedControl {
   answerImage: Control<HTMLElement>;
