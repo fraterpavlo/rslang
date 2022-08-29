@@ -17,17 +17,9 @@ export class AnimatedControl extends Control {
     this.animateIn();
   }
 
-  // quickIn() {
-  //   this.node.classList.remove(this.classes.hidden);
-  //   console.log('quickIn');
-  // }
-
-  // quickOut() {
-  //   this.node.classList.add(this.classes.hidden);
-  //   console.log('quickOut');
-  // }
-
   animateIn(): Promise<void> {
+    console.log(1111111);
+
     return new Promise((resolve) => {
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {

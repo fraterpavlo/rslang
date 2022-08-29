@@ -2,10 +2,12 @@
   @include for-animated-controls-default-styles();
 
   &.hide{
-    left: 100%;
+    // left: 100%;
+    transform: translateX(100vw);
   }
 
   &.show{
-    left: -100%;
+    // left: -100%;
+    transform: translateX(-100vw);
   }
  }

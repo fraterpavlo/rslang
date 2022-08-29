@@ -7,15 +7,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  will-change: transform;
+  // will-change: left;
 
   &.hide{
-    left: 100%;
-  }
-  
-  &.show{
-    left: -100%;
+    // left: 100%;
+    transform: translateX(100vw);
   }
 
+  &.show{
+    // left: -100%;
+    transform: translateX(-100vw);
+  }
   &__question-data-wrapper {
     width: 80%;
     min-height: 50%;
@@ -50,12 +53,10 @@
   }
 
   &.hide {
-    transform: scale(0);
-    opacity: 0;
+    opacity: 1;
   }
 
   &.show {
-    transform: scale(1);
-    opacity: 1;
+    opacity: 0;
   }
 }

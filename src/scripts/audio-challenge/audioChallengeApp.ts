@@ -28,8 +28,6 @@ export class AudioChallengeApp extends Control {
       preloader.destroy();
       this.categoriesCycle();
     });
-
-    // this.categoriesCycle();
   }
 
   private categoriesCycle() {
@@ -62,28 +60,16 @@ export class AudioChallengeApp extends Control {
       gameSettings
     );
     gameField.onHome = async () => {
-      // gameField.animateOut().then(() => {
-      //   gameField.destroy();
-      //   //!to do onHome function
-      //   console.log('to do onHome function');
-      // });
       await gameField.destroy();
       //!to do onHome function
       console.log('to do onHome function');
     };
     gameField.onBack = async () => {
-      // gameField.animateOut().then(() => {
-      //   gameField.destroy();
-      //   this.categoriesCycle();
-      // });
       await gameField.destroy();
       this.categoriesCycle();
     };
     gameField.onFinish = async (results) => {
       SoundManager.playSound(ELocalSoundsUrlList.applause);
-      // gameField.animateOut().then(() => {
-      //   gameField.destroy();
-      // });
       await gameField.destroy();
       const gameOverPage = new GameOverPage(this.node, results);
       gameOverPage.onHome = async () => {

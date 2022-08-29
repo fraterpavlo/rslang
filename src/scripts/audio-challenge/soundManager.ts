@@ -17,7 +17,6 @@ class SoundManagerClass {
   }
 
   private async loadFile(url: string) {
-    // return fetch(url).then(res=>res.blob());
     const res = await fetch(url);
     const resBlob = await res.blob();
     this.cache.set(url, resBlob);
@@ -59,25 +58,6 @@ class SoundManagerClass {
 
     return audio;
   }
-
-  // ok(){
-  //   this.playSound('ok');
-  // }
-
-  // fail(){
-  //   this.playSound('fail');
-  // }
-
-  // playSound(name:string){
-  //   const isCached = this.cache.get(name);
-  //   if (isCached){
-  //     const audio = new Audio(URL.createObjectURL(isCached));
-  //   //  audio.play();
-  //   } else {
-  //     const audio = new Audio(`${this.localSoundsURL}${name}.mp3`);
-  //    // audio.play();
-  //   }
-  // }
 }
 
 export const SoundManager = new SoundManagerClass();

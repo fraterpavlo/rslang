@@ -11,15 +11,12 @@ import {
 } from '../interfaces';
 import { QuestionView } from './components/questionView';
 
-//!пофиксить баг с таймером, когда он не стопается если закрыть страницу игры до того, как проиграет аудио вопроса
-
 export class GameFieldPage extends AnimatedControl {
   onBack!: () => void;
   onHome!: () => void;
   onFinish!: (results: IAnswerData[]) => void;
-  // private gameSettings: IGameSettings;
-  // private wordsData: IWordDataWithAnswers[];
-  //! спросить как правильнее работать с данными. присваивать их к инстансу класса или прокидывать в функции аргументами
+  private gameSettings: IGameSettings;
+  private wordsData: IWordDataWithAnswers[];
   private results: IAnswerData[];
   private progressIndicator: Control<HTMLElement>;
   private answersIndicator: Control<HTMLElement>;
@@ -28,6 +25,7 @@ export class GameFieldPage extends AnimatedControl {
   private nextQuestionButton!: Control<HTMLElement>;
   private seeAnswerButton!: Control<HTMLElement>;
   bindedWithThisKeyboardListener: (event: KeyboardEvent) => void;
+  // bindedWithThisQuestionAudioEndedListener!: (currentQuestionIndex: number) => void;
 
   constructor(
     parentNode: HTMLElement,
@@ -49,8 +47,8 @@ export class GameFieldPage extends AnimatedControl {
       wordsData,
       gameSettings.answersInRoundAmount
     );
-    // this.wordsData = wordsDataWithAnswers;
-    // this.gameSettings =  gameSettings;
+    this.wordsData = wordsDataWithAnswers;
+    this.gameSettings = gameSettings;
     this.results = [];
 
     const backButton = new Control(
@@ -59,9 +57,6 @@ export class GameFieldPage extends AnimatedControl {
       ['game-page__back-btn'],
       'back'
     );
-    // backButton.node.onclick = ()=>{
-    //   this.onBack();
-    // }
     backButton.node.addEventListener(
       'click',
       () => {
@@ -76,9 +71,6 @@ export class GameFieldPage extends AnimatedControl {
       ['game-page__home-btn'],
       'home'
     );
-    // homeButton.node.onclick = ()=>{
-    //   this.onHome();
-    // }
     homeButton.node.addEventListener(
       'click',
       () => {
@@ -86,6 +78,14 @@ export class GameFieldPage extends AnimatedControl {
       },
       { once: true }
     );
+
+    const fullScreenButton = new Control(
+      this.node,
+      'button',
+      ['game-page__fullscreen-btn'],
+      'fullscreen'
+    );
+    fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     this.progressIndicator = new Control(
       this.node,
@@ -103,7 +103,7 @@ export class GameFieldPage extends AnimatedControl {
       ''
     );
 
-    this.questionCycle(wordsDataWithAnswers, gameSettings, 0, () => {
+    this.questionCycle(0, () => {
       this.onFinish(this.results);
     });
 
@@ -147,13 +147,11 @@ export class GameFieldPage extends AnimatedControl {
   }
 
   questionCycle(
-    wordsData: IWordDataWithAnswers[],
-    gameSettings: IGameSettings,
     currentQuestionIndex: number,
     onFinish: (results: IAnswerData[]) => void
   ) {
     this.progressIndicator.node.textContent = `${currentQuestionIndex + 1} / ${
-      gameSettings.questionsInGameAmount
+      this.gameSettings.questionsInGameAmount
     }`;
     this.answersIndicator.node.textContent = this.results
       .map((answerData: IAnswerData) => (answerData.answerResult ? '+' : '-'))
@@ -161,7 +159,7 @@ export class GameFieldPage extends AnimatedControl {
 
     this.questionView = new QuestionView(
       this.node,
-      wordsData[currentQuestionIndex] /*, gameSettings*/
+      this.wordsData[currentQuestionIndex]
     );
     this.questionView.sumUpQuestion = (answerData: IAnswerData) => {
       this.timer.stop();
@@ -174,20 +172,9 @@ export class GameFieldPage extends AnimatedControl {
         ['game-page__next-question-btn'],
         '->-->--->'
       );
-      // nextQuestionButton.node.onclick = ()=>{
-      //     this.questionView.destroy();
-      //     nextQuestionButton.destroy();
-      //     this.questionCycle(wordsData, gameSettings, questionIndex+1, onFinish);
-      // }
       this.nextQuestionButton.node.addEventListener(
         'click',
-        this.onNextQuestionButton.bind(
-          this,
-          wordsData,
-          gameSettings,
-          currentQuestionIndex,
-          onFinish
-        )
+        this.onNextQuestionButton.bind(this, currentQuestionIndex, onFinish)
       );
     };
 
@@ -197,27 +184,20 @@ export class GameFieldPage extends AnimatedControl {
       ['game-page__see-answer-btn'],
       '***показать ответ***'
     );
-    // seeAnswerButton.node.onclick = ()=>{
-    //   this.questionView.onAnswerListener(null, wordsData[questionIndex], false);
-    // }
     this.seeAnswerButton.node.addEventListener(
       'click',
-      this.onSeeAnswerButton.bind(this, wordsData[currentQuestionIndex])
+      this.onSeeAnswerButton.bind(this, this.wordsData[currentQuestionIndex])
     );
 
-    if (gameSettings.timeEnable) {
-      // this.questionView.questionAudio.addEventListener('ended', () => {
-      //   this.timer.start(gameSettings.time);
-      //   this.timer.onTimeout = ()=>{
-      //     this.questionView.onAnswerListener(null, wordsData[questionIndex], false);
-      //   }
-      // }, {once: true});
+    if (this.gameSettings.timeEnable) {
+      // this.bindedWithThisQuestionAudioEndedListener = this.questionAudioEndedListener.bind(this, currentQuestionIndex);
+      // this.questionView.questionAudio.addEventListener('ended',  this.bindedWithThisQuestionAudioEndedListener, {once: true});
       this.questionView.questionAudio.onended = () => {
-        this.timer.start(gameSettings.time);
+        this.timer.start(this.gameSettings.time);
         this.timer.onTimeout = () => {
           this.questionView.onAnswerListener(
             null,
-            wordsData[currentQuestionIndex],
+            this.wordsData[currentQuestionIndex],
             false
           );
         };
@@ -231,24 +211,28 @@ export class GameFieldPage extends AnimatedControl {
   }
 
   async onNextQuestionButton(
-    wordsData: IWordDataWithAnswers[],
-    gameSettings: IGameSettings,
     currentQuestionIndex: number,
     onFinish: (results: IAnswerData[]) => void
   ) {
-    if (currentQuestionIndex + 1 >= gameSettings.questionsInGameAmount) {
+    if (currentQuestionIndex + 1 >= this.gameSettings.questionsInGameAmount) {
       onFinish(this.results);
       return;
     }
     this.nextQuestionButton.destroy();
     await this.questionView.destroy();
-    this.questionCycle(
-      wordsData,
-      gameSettings,
-      currentQuestionIndex + 1,
-      onFinish
-    );
+    this.questionCycle(currentQuestionIndex + 1, onFinish);
   }
+
+  // questionAudioEndedListener(currentQuestionIndex: number) {
+  //   this.timer.start(this.gameSettings.time);
+  //   this.timer.onTimeout = () => {
+  //     this.questionView.onAnswerListener(
+  //       null,
+  //       this.wordsData[currentQuestionIndex],
+  //       false
+  //     );
+  //   };
+  // }
 
   keyboardListener(event: KeyboardEvent) {
     event.preventDefault();
@@ -289,6 +273,19 @@ export class GameFieldPage extends AnimatedControl {
         console.log(`unusable key ${clickedKeyCode}`);
         return;
     }
+  }
+
+  toggleFullScreen() {
+    document.fullscreenElement
+      ? document.exitFullscreen()
+      : document.documentElement.requestFullscreen();
+    // if (!document.fullscreenElement) {
+    //   document.documentElement.requestFullscreen();
+    // } else {
+    //   if (document.exitFullscreen) {
+    //     document.exitFullscreen();
+    //   }
+    // }
   }
 
   async destroy(): Promise<void> {
