@@ -18,8 +18,6 @@ export class AnimatedControl extends Control {
   }
 
   animateIn(): Promise<void> {
-    console.log(1111111);
-
     return new Promise((resolve) => {
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {

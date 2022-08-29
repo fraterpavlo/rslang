@@ -11,27 +11,22 @@ import { SoundManager } from './soundManager';
 export class AudioChallengeApp extends Control {
   dataModel: GameDataModel;
   settingsModel: GameSettingsModel;
+  preloader!: Control<HTMLElement> | null;
 
   constructor(parentNode: HTMLElement | null) {
     super(parentNode, 'main', ['main', 'main__container']);
-
-    const preloader = new Control(
-      this.node,
-      'div',
-      ['preloader'],
-      'LOADING...'
-    );
+    this.preloaderOn();
     this.settingsModel = new GameSettingsModel();
     this.dataModel = new GameDataModel();
 
     SoundManager.preload().then(() => {
-      preloader.destroy();
       this.categoriesCycle();
     });
   }
 
   private categoriesCycle() {
     const gameSettings = this.settingsModel.getData();
+    this.preloaderOff();
     const categories = new CategoriesPage(this.node, gameSettings);
 
     categories.onHome = async () => {
@@ -41,6 +36,7 @@ export class AudioChallengeApp extends Control {
     };
     categories.onSelect = async (categoryIndex: number) => {
       await categories.destroy();
+      this.preloaderOn();
       this.gameCycle(categoryIndex);
     };
   }
@@ -53,7 +49,7 @@ export class AudioChallengeApp extends Control {
     );
     const randomSortedWordsData = questionsData.sort(() => getRandomNum(-1, 1));
     const gameSettings: IGameSettings = this.settingsModel.getData();
-
+    this.preloaderOff();
     const gameField: GameFieldPage = new GameFieldPage(
       this.node,
       randomSortedWordsData,
@@ -66,6 +62,7 @@ export class AudioChallengeApp extends Control {
     };
     gameField.onBack = async () => {
       await gameField.destroy();
+      this.preloaderOn();
       this.categoriesCycle();
     };
     gameField.onFinish = async (results) => {
@@ -79,9 +76,26 @@ export class AudioChallengeApp extends Control {
       };
       gameOverPage.onNext = async () => {
         await gameOverPage.destroy();
+        this.preloaderOn();
         this.categoriesCycle();
       };
     };
+  }
+
+  preloaderOn() {
+    if (this.preloader) return;
+    console.log('preloaderOn');
+
+    this.preloader = new Control(this.node, 'div', ['preloader'], 'LOADING...');
+    this.preloader.node.style.color = 'red';
+  }
+
+  preloaderOff() {
+    if (!this.preloader) return;
+    console.log('preloaderOff');
+
+    this.preloader.destroy();
+    this.preloader = null;
   }
 
   render() {
