@@ -1,8 +1,8 @@
-import { AnimatedControl } from '../../../common/templates/animatedControl';
+import { PageControl } from 'src/scripts/common/templates/pageControl';
 import { Control } from '../../../common/templates/control';
 import { IAnimatingClasses, IGameSettings } from '../interfaces';
 
-export class CategoriesPage extends AnimatedControl {
+export class CategoriesPage extends PageControl {
   onHome!: () => void;
   onSelect!: (index: number) => void;
 
@@ -28,6 +28,14 @@ export class CategoriesPage extends AnimatedControl {
     backButton.node.onclick = () => {
       this.onHome();
     };
+
+    const fullScreenButton = new Control(
+      this.node,
+      'button',
+      ['common-btn', 'categories-page__fullscreen-btn'],
+      'fullscreen'
+    );
+    fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     const categoriesContainer = new Control(this.node, 'div', ['categories']);
 

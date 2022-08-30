@@ -1,8 +1,8 @@
 import { Control } from '../../../common/templates/control';
 import { IAnimatingClasses, IAnswerData } from '../interfaces';
-import { AnimatedControl } from '../../../common/templates/animatedControl';
+import { PageControl } from 'src/scripts/common/templates/pageControl';
 
-export class GameOverPage extends AnimatedControl {
+export class GameOverPage extends PageControl {
   onNext!: () => void;
   onHome!: () => void;
 
@@ -17,6 +17,14 @@ export class GameOverPage extends AnimatedControl {
       ['game-over-page__container', 'game-over-page'],
       animatingClasses
     );
+
+    const fullScreenButton = new Control(
+      this.node,
+      'button',
+      ['common-btn', 'game-over-page__fullscreen-btn'],
+      'fullscreen'
+    );
+    fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     const resultIndicator = new Control(
       this.node,

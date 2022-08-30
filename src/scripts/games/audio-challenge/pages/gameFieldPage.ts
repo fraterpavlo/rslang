@@ -1,4 +1,4 @@
-import { AnimatedControl } from '../../../common/templates/animatedControl';
+import { PageControl } from 'src/scripts/common/templates/pageControl';
 import { Control } from '../../../common/templates/control';
 import { Timer } from '../../../common/templates/timer';
 import { getRandomNum } from '../../../common/utils/utils';
@@ -14,7 +14,7 @@ import {
 import { CorrectAnswerView } from './components/correctAnswerView';
 import { QuestionView } from './components/questionView';
 
-export class GameFieldPage extends AnimatedControl {
+export class GameFieldPage extends PageControl {
   onBack!: () => void;
   onHome!: () => void;
   onFinish!: (results: IAnswerData[]) => void;
@@ -309,12 +309,6 @@ export class GameFieldPage extends AnimatedControl {
         console.log(`unusable key ${clickedKeyCode}`);
         return;
     }
-  }
-
-  toggleFullScreen() {
-    document.fullscreenElement
-      ? document.exitFullscreen()
-      : document.documentElement.requestFullscreen();
   }
 
   async destroy(): Promise<void> {
