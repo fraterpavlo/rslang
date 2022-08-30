@@ -1,5 +1,5 @@
-import { IAnimatingClasses } from 'src/scripts/games/audio-challenge/interfaces';
-import { Control } from './control';
+import { Control } from '../../../common/templates/control';
+import { IAnimatingClasses } from '../commonInterfaces';
 
 export class AnimatedControl extends Control {
   private animatingClasses: { hide: string; show: string };

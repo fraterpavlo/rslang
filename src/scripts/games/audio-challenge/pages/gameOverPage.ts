@@ -1,6 +1,7 @@
 import { Control } from '../../../common/templates/control';
-import { IAnimatingClasses, IAnswerData } from '../interfaces';
-import { PageControl } from 'src/scripts/common/templates/pageControl';
+import { IAnimatingClasses } from '../../common/commonInterfaces';
+import { PageControl } from '../../common/templates/pageControl';
+import { IAnswerData } from '../interfaces';
 
 export class GameOverPage extends PageControl {
   onNext!: () => void;

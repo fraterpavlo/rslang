@@ -1,6 +1,7 @@
-import { PageControl } from 'src/scripts/common/templates/pageControl';
+import { PageControl } from '../../common/templates/pageControl';
 import { Control } from '../../../common/templates/control';
-import { IAnimatingClasses, IGameSettings } from '../interfaces';
+import { IGameSettings } from '../interfaces';
+import { IAnimatingClasses } from '../../common/commonInterfaces';
 
 export class CategoriesPage extends PageControl {
   onHome!: () => void;

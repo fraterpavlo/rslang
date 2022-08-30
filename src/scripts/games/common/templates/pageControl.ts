@@ -1,4 +1,4 @@
-import { IAnimatingClasses } from 'src/scripts/games/audio-challenge/interfaces';
+import { IAnimatingClasses } from '../commonInterfaces';
 import { AnimatedControl } from './animatedControl';
 
 export class PageControl extends AnimatedControl {

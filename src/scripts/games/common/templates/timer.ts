@@ -1,4 +1,4 @@
-import { Control } from './control';
+import { Control } from '../../../common/templates/control';
 
 export class Timer extends Control {
   onTimeout!: () => void;

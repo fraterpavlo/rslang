@@ -1,6 +1,6 @@
-import { PageControl } from 'src/scripts/common/templates/pageControl';
+import { PageControl } from '../../common/templates/pageControl';
 import { Control } from '../../../common/templates/control';
-import { Timer } from '../../../common/templates/timer';
+import { Timer } from '../../common/templates/timer';
 import { getRandomNum } from '../../../common/utils/utils';
 import { SoundManager } from '../../common/soundManager';
 import {
@@ -8,9 +8,9 @@ import {
   IWordDataWithAnswers,
   IGameSettings,
   IAnswerData,
-  IAnimatingClasses,
   ELocalSoundsUrlList,
 } from '../interfaces';
+import { IAnimatingClasses } from '../../common/commonInterfaces';
 import { CorrectAnswerView } from './components/correctAnswerView';
 import { QuestionView } from './components/questionView';
 
