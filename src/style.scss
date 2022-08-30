@@ -1,14 +1,9 @@
 //GENERAL
 @import './styles/common/reset';
 @import './styles/common/mixins';
-//audio-challenge game
-@import "./styles/audio-challenge/common/variables";
-@import "./styles/audio-challenge/common/mixins";
-@import "./styles/audio-challenge/common/general";
-@import "./styles/audio-challenge/categoriesPage";
-@import "./styles/audio-challenge/gameFieldPage";
-@import "./styles/audio-challenge/questionView";
-@import "./styles/audio-challenge/gameOverPage";
+
+//games
+@import './styles/games/gemes';
 
 
 
