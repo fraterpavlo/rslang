@@ -8,17 +8,27 @@
   justify-content: center;
   align-items: center;
   will-change: transform;
-  // will-change: left;
 
   &.hide{
-    // left: 100%;
     transform: translateX(100vw);
   }
 
   &.show{
-    // left: -100%;
     transform: translateX(-100vw);
   }
+
+  &__answer-btn {
+    
+
+    &.correct-answer {
+      background-color: green;
+    }
+
+    &.incorrect-answer {
+      background-color: red;
+    }
+  }
+
   &__question-data-wrapper {
     width: 80%;
     min-height: 50%;

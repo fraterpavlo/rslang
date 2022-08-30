@@ -31,7 +31,7 @@ export class GameOverPage extends AnimatedControl {
     const nextButton = new Control(
       this.node,
       'button',
-      ['game-over-page__next-btn'],
+      ['common-btn', 'game-over-page__next-btn'],
       'next'
     );
     nextButton.node.onclick = () => {
@@ -41,7 +41,7 @@ export class GameOverPage extends AnimatedControl {
     const homeButton = new Control(
       this.node,
       'button',
-      ['game-over-page__home-btn'],
+      ['common-btn', 'game-over-page__home-btn'],
       'home'
     );
     homeButton.node.onclick = () => {

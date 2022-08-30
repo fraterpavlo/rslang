@@ -44,7 +44,7 @@ export class CorrectAnswerView extends AnimatedControl {
     this.audioWord = new Control(
       this.wordInfoWrapper.node,
       'button',
-      ['word-info__audio-btn'],
+      ['common-btn', 'word-info__audio-btn'],
       'звук'
     );
     this.audioWord.node.onclick = () => {
@@ -70,7 +70,7 @@ export class CorrectAnswerView extends AnimatedControl {
     this.audioExample = new Control(
       this.exampleInfoWrapper.node,
       'button',
-      ['example-info__audio-btn'],
+      ['common-btn', 'example-info__audio-btn'],
       'звук'
     );
     this.audioExample.node.onclick = () => {

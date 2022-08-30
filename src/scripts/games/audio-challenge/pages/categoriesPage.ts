@@ -22,7 +22,7 @@ export class CategoriesPage extends AnimatedControl {
     const backButton = new Control(
       headerWrapper.node,
       'button',
-      ['button_back'],
+      ['common-btn', 'button_back'],
       'back'
     );
     backButton.node.onclick = () => {
@@ -35,7 +35,7 @@ export class CategoriesPage extends AnimatedControl {
       const categoryButton = new Control(
         categoriesContainer.node,
         'button',
-        ['categories__button'],
+        ['common-btn', 'categories__button'],
         `Level ${i + 1}`
       );
       categoryButton.node.addEventListener('click', () => {
