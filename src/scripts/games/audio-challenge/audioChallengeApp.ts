@@ -3,7 +3,7 @@ import { getRandomNum } from '../../common/utils/utils';
 import { CategoriesPage } from './pages/categoriesPage';
 import { GameFieldPage } from './pages/gameFieldPage';
 import { GameSettingsModel } from './gameSettingsModel';
-import { GameDataModel } from './gameDataModel';
+import { GameDataModel } from '../common/gameDataModel';
 import { IWordData, IGameSettings, ELocalSoundsUrlList } from './interfaces';
 import { GameOverPage } from './pages/gameOverPage';
 import { SoundManager } from '../common/soundManager';

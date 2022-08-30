@@ -31,6 +31,7 @@ export class GameFieldPage extends PageControl {
   private nextQuestionButton!: Control<HTMLElement>;
   bindedWithThisKeyboardListener: (event: KeyboardEvent) => void;
   bindedWithThisQuestionAudioEndedListener!: () => void;
+  mainField: Control<HTMLElement>;
 
   constructor(
     parentNode: HTMLElement,
@@ -58,8 +59,15 @@ export class GameFieldPage extends PageControl {
     this.wordsData = wordsDataWithAnswers;
     this.gameSettings = gameSettings;
 
+    const headPanelWrapper = new Control(this.node, 'div', [
+      'game-page__head-panel'
+    ]);
+    const exitButtonsWrapper = new Control(headPanelWrapper.node, 'div', [
+      'game-page__exit-buttons-wrapper',
+    ]);
+
     const backButton = new Control(
-      this.node,
+      exitButtonsWrapper.node,
       'button',
       ['common-btn', 'game-page__back-btn'],
       'back'
@@ -73,7 +81,7 @@ export class GameFieldPage extends PageControl {
     );
 
     const homeButton = new Control(
-      this.node,
+      exitButtonsWrapper.node,
       'button',
       ['common-btn', 'game-page__home-btn'],
       'home'
@@ -87,27 +95,29 @@ export class GameFieldPage extends PageControl {
     );
 
     const fullScreenButton = new Control(
-      this.node,
+      headPanelWrapper.node,
       'button',
       ['common-btn', 'game-page__fullscreen-btn'],
       'fullscreen'
     );
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
+    this.mainField = new Control(this.node, 'div', [
+      'game-page__main-field',
+      'main-field',
+    ]);
     this.progressIndicator = new Control(
-      this.node,
+      this.mainField.node,
       'div',
-      ['progressIndicator'],
-      ''
+      ['progressIndicator']
     );
 
-    this.timer = new Timer(this.node, 'div', ['game-page__timer']);
+    this.timer = new Timer(this.mainField.node, 'div', ['game-page__timer']);
 
     this.answersIndicator = new Control(
-      this.node,
+      this.mainField.node,
       'div',
-      ['answersIndicator'],
-      ''
+      ['answersIndicator']
     );
 
     this.questionCycle();
@@ -160,7 +170,7 @@ export class GameFieldPage extends PageControl {
       .join(' ');
 
     this.questionView = new QuestionView(
-      this.node,
+      this.mainField.node,
       this.wordsData[this.currentQuestionIndex]
     );
     this.questionView.answersBtnArr.forEach(
@@ -172,7 +182,7 @@ export class GameFieldPage extends PageControl {
     );
 
     this.seeAnswerButton = new Control(
-      this.node,
+      this.mainField.node,
       'button',
       ['common-btn', 'game-page__see-answer-btn'],
       '***показать ответ***'
@@ -233,7 +243,7 @@ export class GameFieldPage extends PageControl {
     this.seeAnswerButton.destroy();
 
     this.nextQuestionButton = new Control(
-      this.node,
+      this.mainField.node,
       'button',
       ['common-btn', 'game-page__next-question-btn'],
       '->-->--->'

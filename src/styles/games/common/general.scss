@@ -58,12 +58,6 @@ body::-webkit-resizer {
   flex: 1 1 auto;
 }
 
-.page {
-  height: 100%;
-  padding: 20px;
-  background: $bcg-color2;
-}
-
 .common-btn {
   @include flex();
   align-items: center;

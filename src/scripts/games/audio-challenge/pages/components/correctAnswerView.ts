@@ -1,7 +1,7 @@
 import { Control } from '../../../../common/templates/control';
 import { IWordDataWithAnswers } from '../../interfaces';
 import { IAnimatingClasses } from '../../../common/commonInterfaces';
-import { baseUrl } from '../../gameDataModel';
+import { baseUrl } from '../../../common/gameDataModel';
 import { SoundManager } from '../../../common/soundManager';
 import { AnimatedControl } from '../../../common/templates/animatedControl';
 

@@ -1,4 +1,4 @@
-import { IWordData } from './interfaces';
+import { IWordData } from '../audio-challenge/interfaces';
 
 export const baseUrl = 'https://rs-lang-rss-task.herokuapp.com';
 export const wordsUrl = `${baseUrl}/words`;
