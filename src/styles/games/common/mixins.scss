@@ -1,5 +1,5 @@
 @mixin for-animated-controls-default-styles() {
-  transition: translateX $animating-control-animate-duration;
+  transition: transform $animating-control-animate-duration;
   opacity: 1;
   transform: translateX(0);
 }

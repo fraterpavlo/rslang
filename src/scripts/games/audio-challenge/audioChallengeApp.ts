@@ -4,18 +4,26 @@ import { CategoriesPage } from './pages/categoriesPage';
 import { GameFieldPage } from './pages/gameFieldPage';
 import { GameSettingsModel } from './gameSettingsModel';
 import { GameDataModel } from '../common/gameDataModel';
-import { IWordData, IGameSettings, ELocalSoundsUrlList } from './interfaces';
+import { IWordData } from '../common/commonInterfaces';
+import { IGameSettings, ELocalSoundsUrlList } from './interfaces';
 import { GameOverPage } from './pages/gameOverPage';
 import { SoundManager } from '../common/soundManager';
+import { Preloader } from '../common/templates/preloader';
 
 export class AudioChallengeApp extends Control {
   dataModel: GameDataModel;
   settingsModel: GameSettingsModel;
-  preloader!: Control<HTMLElement> | null;
+  preloader: Preloader;
 
   constructor(parentNode: HTMLElement | null) {
     super(parentNode, 'main', ['main', 'main__container']);
-    this.preloaderOn();
+    this.preloader = new Preloader(
+      this.node,
+      'div',
+      ['preloader'],
+      'LOADING...'
+    );
+    this.preloader.activate();
     this.settingsModel = new GameSettingsModel();
     this.dataModel = new GameDataModel();
 
@@ -26,7 +34,7 @@ export class AudioChallengeApp extends Control {
 
   private categoriesCycle() {
     const gameSettings = this.settingsModel.getData();
-    this.preloaderOff();
+    this.preloader.deactivate();
     const categories = new CategoriesPage(this.node, gameSettings);
 
     categories.onHome = async () => {
@@ -36,7 +44,7 @@ export class AudioChallengeApp extends Control {
     };
     categories.onSelect = async (categoryIndex: number) => {
       await categories.destroy();
-      this.preloaderOn();
+      this.preloader.activate();
       this.gameCycle(categoryIndex);
     };
   }
@@ -49,7 +57,7 @@ export class AudioChallengeApp extends Control {
     );
     const randomSortedWordsData = questionsData.sort(() => getRandomNum(-1, 1));
     const gameSettings: IGameSettings = this.settingsModel.getData();
-    this.preloaderOff();
+    this.preloader.deactivate();
     const gameField: GameFieldPage = new GameFieldPage(
       this.node,
       randomSortedWordsData,
@@ -62,7 +70,7 @@ export class AudioChallengeApp extends Control {
     };
     gameField.onBack = async () => {
       await gameField.destroy();
-      this.preloaderOn();
+      this.preloader.activate();
       this.categoriesCycle();
     };
     gameField.onFinish = async (results) => {
@@ -76,26 +84,10 @@ export class AudioChallengeApp extends Control {
       };
       gameOverPage.onNext = async () => {
         await gameOverPage.destroy();
-        this.preloaderOn();
+        this.preloader.activate();
         this.categoriesCycle();
       };
     };
-  }
-
-  preloaderOn() {
-    if (this.preloader) return;
-    console.log('preloaderOn');
-
-    this.preloader = new Control(this.node, 'div', ['preloader'], 'LOADING...');
-    this.preloader.node.style.color = 'red';
-  }
-
-  preloaderOff() {
-    if (!this.preloader) return;
-    console.log('preloaderOff');
-
-    this.preloader.destroy();
-    this.preloader = null;
   }
 
   render() {

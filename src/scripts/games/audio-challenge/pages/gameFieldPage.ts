@@ -3,8 +3,8 @@ import { Control } from '../../../common/templates/control';
 import { Timer } from '../../common/templates/timer';
 import { getRandomNum } from '../../../common/utils/utils';
 import { SoundManager } from '../../common/soundManager';
+import { IWordData } from '../../common/commonInterfaces';
 import {
-  IWordData,
   IWordDataWithAnswers,
   IGameSettings,
   IAnswerData,
