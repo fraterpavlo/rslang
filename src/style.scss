@@ -1,10 +1,21 @@
+@import url("./styles/common/_reset.scss");
+@import url("./styles/common/mixins.scss");
+
+@font-face {
+  font-family: "Bradley";
+  src: url("./assets/BRADHITC.TTF");
+}
+
+@mixin fontz($size, $hght, $wdth) {
+  font-size: $size;
+  line-height: $hght;
+  font-weight: $wdth;
+}
+
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: darkslategrey;
-  color: white;
-  text-transform: uppercase;
+  user-select: none;
+  min-height: 100%;
+  color: #fff;
+  font-family: "Bradley", "Roboto", sans-serif;
+  position: relative;
 }

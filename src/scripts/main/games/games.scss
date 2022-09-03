@@ -1,0 +1,42 @@
+.main {
+    &__games {
+        display: flex;
+        justify-content: space-between;
+        width: 1200px;
+        margin: 0 auto;
+    }
+
+    &__game {
+        width: 385px;
+        height: 160px;
+        color: #fff;
+        border-radius: 25%;
+        @extend %tocenter;
+    }
+
+    &__games>a {
+        transition: 0.2s;
+
+        &:hover {
+            transform: translate(0, -2px);
+        }
+
+        &:first-child {
+            background-image: url(../../../assets/g1.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        &:last-child {
+            background-image: url(../../../assets/g2.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }
+}
+
+%tocenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

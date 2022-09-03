@@ -1,0 +1,85 @@
+@mixin fontz($size, $hght, $wdth) {
+    font-size: $size;
+    line-height: $hght;
+    font-weight: $wdth;
+}
+
+.points {
+    &__register {
+        background-color: #ffffff00;
+        background-image: url(../../../assets/register.png);
+        background-size: 100%;
+        display: block;
+        height: 83px;
+        width: 280px;
+        border-radius: 30px !important;
+        transition: 0.2s;
+        transform: rotate(2deg)
+    }
+
+    &__textbook {
+        display: block;
+        background-image: url(../../../assets/textbook.png);
+        background-size: cover;
+        height: 135px;
+        width: 168px;
+        box-shadow: 10px 8px 15px #000;
+        transition: 0.2s;
+    }
+
+    &__about {
+        display: block;
+        background-image: url(../../../assets/about.png);
+        background-size: cover;
+        height: 135px;
+        width: 150px;
+        margin-top: 5px !important;
+        box-shadow: 10px 8px 20px #000;
+        transition: 0.2s;
+    }
+
+    &__textbook:hover,
+    &__about:hover,
+    &__register:hover {
+        transform: translate(0, -2px);
+    }
+
+    &__register,
+    &__about,
+    &__textbook {
+        color: #ffffff !important;
+        font-size: 28px;
+        margin: 0 auto;
+        flex-direction: column;
+        border-radius: 50%;
+
+        @extend %tocenter;
+    }
+}
+
+.footer {
+    background-image: url(../../../assets/home.svg);
+    height: 459px;
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__info {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        font-size: 24px;
+        /* padding: 30px 20px; */
+        color: #a0a0a0;
+    }
+}
+
+%tocenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

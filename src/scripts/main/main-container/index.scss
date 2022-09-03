@@ -1,0 +1,76 @@
+@mixin fontz($size, $hght, $wdth) {
+    font-size: $size;
+    line-height: $hght;
+    font-weight: $wdth;
+}
+
+.main {
+
+    &__container {
+        user-select: none;
+        overflow: auto;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;    
+        @include fontz(36px, 44px, 400);
+    
+        text-shadow: rgb(71, 71, 71) 2px 2px 1px;
+        color: #fff;
+        height: 1000px;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url("../../../assets/bg.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+    
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__title {
+        @include fontz(128px, 160px, 400);
+
+        text-align: center;
+        font-family: 'Bradley';
+        font-weight: bold;
+        color: #fefefe;
+    }
+
+    &__subtitle {
+        @include fontz(48px, 60px, 400);
+
+        text-align: center;
+        font-family: 'Bradley';
+        text-shadow: none;
+
+        span {
+            color: #9C303C;
+        }
+    }
+}
+
+@media only screen and (max-width: 1201px) {
+    .main__container > * {
+        width: 100%;
+    }
+    .main {
+        &__footer {
+            /* background-image: url($home); */
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        &__games {
+            flex-direction: column;
+            align-items: center;
+        }
+        &__game {
+            height: 120px;
+            width: 270px;
+            background-size: 100%;
+        }
+    }
+
+    .footer {
+        &__info {
+            margin: 0px !important;
+            padding: 10px;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+export class Component {
+  initRouter() : void {
+    if (window.location.hash === '') {
+      window.location.hash = '#/';
+    }
+  }
+  element: HTMLElement;
+
+  constructor(
+    parentNode: HTMLElement,
+    tagName: keyof HTMLElementTagNameMap = 'div',
+    styles: string[] = [],
+    content = '',
+  ) {
+    this.element = document.createElement(tagName);
+    this.element.classList.add(...styles);
+    this.element.textContent = content;
+
+    if (parentNode) {
+      parentNode.append(this.element);
+    }
+  }
+
+  destroy(): void {
+    this.element.remove();
+  }
+}

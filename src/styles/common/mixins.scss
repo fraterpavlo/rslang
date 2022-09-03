@@ -1,0 +1,11 @@
+@mixin flex() {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+@mixin fontz($size, $hght, $wdth) {
+    font-size: $size;
+    line-height: $hght;
+    font-weight: $wdth;
+}
