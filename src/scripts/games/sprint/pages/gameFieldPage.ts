@@ -9,6 +9,7 @@ import {
   IWordDataWithAnswers,
   ELocalSoundsUrlList,
   IGameSettings,
+  TCorrectAnswersCombinationData,
 } from '../interfaces';
 import { IAnimatingClasses } from '../../common/commonInterfaces';
 import { QuestionView } from './components/questionView';
@@ -16,15 +17,20 @@ import { QuestionView } from './components/questionView';
 export class GameFieldPage extends PageControl {
   onBack!: () => void;
   onHome!: () => void;
-  onFinish!: (results: IAnswerData[]) => void;
+  onFinish!: (results: IAnswerData[], score: number) => void;
   currentQuestionIndex: number;
   private results: IAnswerData[];
   private wordsData: IWordDataWithAnswers[];
-  private answersIndicator: Control<HTMLElement>;
   private timer!: Timer;
+  currentScore: number;
+  scoreIndicator: Control<HTMLElement>;
+  pointsForCorrectAnswer: number;
+  pointsForCorrectAnswerIndicator: Control<HTMLElement>;
+  correctAnswersCombinationData: TCorrectAnswersCombinationData;
+  private correctAnswersCombinationIndicator: Control<HTMLElement>;
   private questionView!: QuestionView;
-  // bindedWithThisKeyboardListener: (event: KeyboardEvent) => void;
-  // bindedWithThisQuestionAudioEndedListener!: () => void;
+  bindedWithThisKeyboardListener: (event: KeyboardEvent) => void;
+  bindedWithThisQuestionAudioEndedListener!: () => void;
   mainFieldWrapper: Control<HTMLElement>;
   questionWrapper: Control<HTMLElement>;
 
@@ -40,7 +46,11 @@ export class GameFieldPage extends PageControl {
       animatingClasses
     );
     this.currentQuestionIndex = 0;
+    this.currentScore = 0;
     this.results = [];
+    this.correctAnswersCombinationData = [false, false, false];
+    this.pointsForCorrectAnswer =
+      IGameSettings.defaultNumberOfPointsForCorrectAnswer;
     this.wordsData = this.getWordsDataWithAnswers(wordsData);
 
     const headPanelWrapper = new Control(this.node, 'div', [
@@ -95,9 +105,25 @@ export class GameFieldPage extends PageControl {
       'game-page__timer',
     ]);
 
-    this.answersIndicator = new Control(this.mainFieldWrapper.node, 'div', [
-      'answersIndicator',
-    ]);
+    this.scoreIndicator = new Control(
+      this.mainFieldWrapper.node,
+      'span',
+      ['scoreIndicator'],
+      `Текущий результат: 0`
+    );
+
+    this.pointsForCorrectAnswerIndicator = new Control(
+      this.mainFieldWrapper.node,
+      'div',
+      ['pointsForCorrectAnswerIndicator'],
+      `Очков за слово +${this.pointsForCorrectAnswer}`
+    );
+
+    this.correctAnswersCombinationIndicator = new Control(
+      this.mainFieldWrapper.node,
+      'div',
+      ['correctAnswersCombinationIndicator']
+    );
 
     this.questionWrapper = new Control(this.mainFieldWrapper.node, 'div', [
       'game-page__question-wrapper',
@@ -107,7 +133,7 @@ export class GameFieldPage extends PageControl {
 
     this.timer.start(IGameSettings.time);
     this.timer.onTimeout = () => {
-      this.onFinish(this.results);
+      this.onFinish(this.results, this.currentScore);
     };
 
     const positiveAnswerBtn = new Control(
@@ -132,8 +158,8 @@ export class GameFieldPage extends PageControl {
       this.onAnswer.bind(this, false)
     );
 
-    // this.bindedWithThisKeyboardListener = this.keyboardListener.bind(this);
-    // window.addEventListener('keydown', this.bindedWithThisKeyboardListener);
+    this.bindedWithThisKeyboardListener = this.keyboardListener.bind(this);
+    window.addEventListener('keydown', this.bindedWithThisKeyboardListener);
   }
 
   getWordsDataWithAnswers(wordsData: IWordData[]) {
@@ -168,10 +194,6 @@ export class GameFieldPage extends PageControl {
   }
 
   questionCycle() {
-    this.answersIndicator.node.textContent = this.results
-      .map((answerData: IAnswerData) => (answerData.answerResult ? '+' : '-'))
-      .join(' ');
-
     this.questionView = new QuestionView(
       this.questionWrapper.node,
       this.wordsData[this.currentQuestionIndex]
@@ -185,6 +207,11 @@ export class GameFieldPage extends PageControl {
       ? SoundManager.playSound(ELocalSoundsUrlList.success)
       : SoundManager.playSound(ELocalSoundsUrlList.fail);
 
+    if (isCorrectAnswer) {
+      this.currentScore += this.pointsForCorrectAnswer;
+      this.scoreIndicator.node.textContent = `Текущий результат: ${this.currentScore}`;
+    }
+
     const answerData = {
       wordId: currentQuestionWordData.id,
       word: currentQuestionWordData.word,
@@ -196,80 +223,69 @@ export class GameFieldPage extends PageControl {
 
     this.results.push(answerData);
 
+    this.uploadCorrectAnswersCombination(isCorrectAnswer);
     this.currentQuestionIndex++;
     this.questionView.destroy();
     this.questionCycle();
   }
 
-  // onSeeAnswerButton() {
-  //   this.onAnswer(null, false);
-  // }
+  uploadCorrectAnswersCombination(isCorrectCurrentAnswer: boolean) {
+    if (!isCorrectCurrentAnswer) {
+      this.correctAnswersCombinationData = [false, false, false];
+      this.pointsForCorrectAnswer =
+        IGameSettings.defaultNumberOfPointsForCorrectAnswer;
+      this.pointsForCorrectAnswerIndicator.node.textContent = `Очков за слово +${this.pointsForCorrectAnswer}`;
+      return;
+    }
 
-  // async onNextQuestionButton() {
-  //   if (
-  //     this.currentQuestionIndex + 1 >=
-  //     this.gameSettings.questionsInGameAmount
-  //   ) {
-  //     this.onFinish(this.results);
-  //     return;
-  //   }
-  //   this.currentQuestionIndex++;
-  //   this.answerShown = false;
-  //   this.nextQuestionButton.destroy();
-  //   await this.questionView.destroy();
-  //   this.questionCycle();
-  // }
+    const indexOfFirstFalseItem =
+      this.correctAnswersCombinationData.indexOf(false);
 
-  // questionAudioEndedListener() {
-  //   this.timer.start(this.gameSettings.time);
-  //   this.timer.onTimeout = () => {
-  //     this.onAnswer(null, false);
-  //   };
-  // }
+    if (indexOfFirstFalseItem === -1) {
+      this.correctAnswersCombinationData = [false, false, false];
+      if (
+        this.pointsForCorrectAnswer <
+        IGameSettings.maximumNumberOfPointsForCorrectAnswer
+      )
+        this.pointsForCorrectAnswer +=
+          IGameSettings.increasingNumberOfPointsForCorrectAnswer;
+      this.pointsForCorrectAnswerIndicator.node.textContent = `Очков за слово +${this.pointsForCorrectAnswer}`;
+    } else {
+      this.correctAnswersCombinationData[indexOfFirstFalseItem] = true;
+    }
 
-  // keyboardListener(event: KeyboardEvent) {
-  //   event.preventDefault();
-  //   if (event.repeat) return;
-  //   const clickedKeyCode = event.code;
+    this.correctAnswersCombinationIndicator.node.textContent =
+      this.correctAnswersCombinationData
+        .map((combinationItem: boolean) => (combinationItem ? '+' : '-'))
+        .join(' ');
+  }
 
-  //   switch (clickedKeyCode) {
-  //     case 'Escape':
-  //       this.onHome();
-  //       break;
-  //     case 'Backspace':
-  //       this.onBack();
-  //       break;
-  //     case 'Space':
-  //       this.questionView.questionAudioBtn.node.click();
-  //       break;
-  //     case 'Digit1':
-  //       this.questionView.answersBtnArr[0].node.click();
-  //       break;
-  //     case 'Digit2':
-  //       this.questionView.answersBtnArr[1].node.click();
-  //       break;
-  //     case 'Digit3':
-  //       this.questionView.answersBtnArr[2].node.click();
-  //       break;
-  //     case 'Digit4':
-  //       this.questionView.answersBtnArr[3].node.click();
-  //       break;
-  //     case 'Digit5':
-  //       this.questionView.answersBtnArr[4].node.click();
-  //       break;
-  //     case 'Enter':
-  //       this.answerShown
-  //         ? this.nextQuestionButton.node.click()
-  //         : this.seeAnswerButton.node.click();
-  //       break;
-  //     default:
-  //       console.log(`unusable key ${clickedKeyCode}`);
-  //       return;
-  //   }
-  // }
+  keyboardListener(event: KeyboardEvent) {
+    event.preventDefault();
+    if (event.repeat) return;
+    const clickedKeyCode = event.code;
+
+    switch (clickedKeyCode) {
+      case 'Escape':
+        this.onHome();
+        break;
+      case 'Backspace':
+        this.onBack();
+        break;
+      case 'ArrowRight':
+        this.onAnswer.bind(this, false);
+        break;
+      case 'ArrowLeft':
+        this.onAnswer.bind(this, true);
+        break;
+      default:
+        console.log(`unusable key ${clickedKeyCode}`);
+        return;
+    }
+  }
 
   async destroy(): Promise<void> {
-    // window.removeEventListener('keydown', this.bindedWithThisKeyboardListener);
+    window.removeEventListener('keydown', this.bindedWithThisKeyboardListener);
     this.timer.stop();
     await super.destroy();
   }

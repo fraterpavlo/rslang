@@ -11,6 +11,7 @@ export class GameOverPage extends PageControl {
   constructor(
     parentNode: HTMLElement,
     resultsData: IAnswerData[],
+    score: number,
     animatingClasses: IAnimatingClasses = { hide: 'hide', show: 'show' }
   ) {
     super(
@@ -32,22 +33,12 @@ export class GameOverPage extends PageControl {
     );
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
-    // const resultIndicator = new Control(
-    //   this.node,
-    //   'div',
-    //   ['game-over-page__resultIndicator'],
-    //   ''
-    // );
-    // resultIndicator.node.textContent = results
-    //   .map((answerData: IAnswerData) => (answerData.answerResult ? '+' : '-'))
-    //   .join(' ');
-
     const mainField = new Control(this.node, 'div', [
       'game-over-page__main-field',
       'main-field',
     ]);
 
-    new resultTableView(mainField.node, resultsData);
+    new resultTableView(mainField.node, resultsData, score);
 
     const exitButtonsWrapper = new Control(mainField.node, 'div', [
       'game-over-page__exit-buttons-wrapper',

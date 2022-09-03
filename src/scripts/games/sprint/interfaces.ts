@@ -1,9 +1,14 @@
 export enum IGameSettings {
   levelAmount = 6,
   time = 60,
+  defaultNumberOfPointsForCorrectAnswer = 20,
+  increasingNumberOfPointsForCorrectAnswer = 20,
+  maximumNumberOfPointsForCorrectAnswer = 80,
 }
 
 //GameFieldPage
+export type TCorrectAnswersCombinationData = [boolean, boolean, boolean];
+
 export interface IWordDataWithAnswers {
   id: string;
   group: number;

@@ -4,17 +4,18 @@ import { SoundManager } from '../../../common/soundManager';
 import { baseUrl } from '../../../common/gameDataModel';
 
 export class resultTableView extends Control {
-  constructor(parentNode: HTMLElement, resultsData: IAnswerData[]) {
+  constructor(
+    parentNode: HTMLElement,
+    resultsData: IAnswerData[],
+    score: number
+  ) {
     super(parentNode, 'div', ['game-over-page__result-table', 'result-table']);
 
-    const correctAnswersAmount = resultsData.filter(
-      (answerData: IAnswerData) => !!answerData.answerResult
-    ).length;
     new Control(
       this.node,
       'div',
       ['result-table__head-row'],
-      `Верных ответов: ${correctAnswersAmount}`
+      `Очков набрано: ${score}`
     );
 
     resultsData.forEach(this.renderTableRow.bind(this));

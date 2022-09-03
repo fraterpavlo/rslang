@@ -71,10 +71,10 @@ export class AudioChallengeApp extends Control {
       this.preloader.activate();
       this.categoriesCycle();
     };
-    gameField.onFinish = async (results) => {
+    gameField.onFinish = async (results, score) => {
       SoundManager.playSound(ELocalSoundsUrlList.applause);
       await gameField.destroy();
-      const gameOverPage = new GameOverPage(this.node, results);
+      const gameOverPage = new GameOverPage(this.node, results, score);
       gameOverPage.onHome = async () => {
         await gameOverPage.destroy();
         //!to do onHome function
