@@ -7,7 +7,6 @@ export class App {
 
     constructor(private rootElement: HTMLElement) {
         this.main = new Component(this.rootElement, 'main', ['main']);
-
         this.router = new Router(this.main.element);
     }
 
