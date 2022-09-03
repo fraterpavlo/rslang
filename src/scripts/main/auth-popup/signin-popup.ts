@@ -20,11 +20,9 @@ export class AuthPopup extends Component {
         this.linkToClose.element.setAttribute('href', '#');
 
         const title = new Component(this.element, 'div', ['auth__window']);
-        // const inp = new Component(title.element, 'div', ['auth__inp']);
-        // const labelEmail = new Component(inp.element, 'label', ['label']);
-        // labelEmail.element.setAttribute('for', 'inputIdemail');
-        // labelEmail.element.innerHTML = 'Email:';
-        // const inpEmail = new Component(labelEmail.element, 'input', [])
+        
+
+        // безобразие, что ниже, уберу.
 
         title.element.innerHTML = `
         <div class="auth__inp">

@@ -2,7 +2,6 @@ import { Component } from '../../common/templates/component';
 import './footer.scss';
 
 export class Footer extends Component {
-    private navItems: Component[] = [];
     private linkToRegister: Component;
     private linkToTextbook: Component;
     private linkToAboutInfo: Component;
@@ -50,23 +49,5 @@ export class Footer extends Component {
         );
 
         this.linkToSchool.element.setAttribute('href', 'https://rs.school/');
-
-        this.navItems = [this.linkToRegister, this.linkToTextbook, this.linkToAboutInfo];
-
-        window.addEventListener('hashchange', () =>
-            this.updateActive(this.navItems),
-        );
-        window.addEventListener('load', () => this.updateActive(this.navItems));
-    }
-
-    private updateActive(navItems: Component[]): void {
-        this.navItems = navItems.map((item) => {
-            item.element.classList.remove('footer__item--active');
-            if (item.element.getAttribute('href') === window.location.hash) {
-                item.element.classList.add('footer__item--active');
-            }
-
-            return item;
-        });
     }
 }
