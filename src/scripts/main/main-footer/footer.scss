@@ -1,8 +1,4 @@
-@mixin fontz($size, $hght, $wdth) {
-    font-size: $size;
-    line-height: $hght;
-    font-weight: $wdth;
-}
+@import "../../../styles/common/mixins.scss";
 
 .points {
     &__register {
