@@ -1,13 +1,5 @@
 .question-view {
   @include for-animated-controls-default-styles();
-  width: 80%;
-  height: 50%;
-  background-color: blue;
-  @include flex();
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  will-change: transform;
 
   &.hide{
     transform: translateX(100vw);

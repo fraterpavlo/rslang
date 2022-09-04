@@ -1,0 +1,12 @@
+.categories-page {
+  @include for-animated-controls-default-styles();
+
+  @include animated-by-moving-elements;
+  // &.hide{
+  //   transform: translateX(100vw);
+  // }
+
+  // &.show{
+  //   transform: translateX(-100vw);
+  // }
+}

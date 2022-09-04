@@ -16,7 +16,10 @@ export class AudioChallengeApp extends Control {
   preloader: Preloader;
 
   constructor(parentNode: HTMLElement | null) {
-    super(parentNode, 'main', ['main', 'main__container']);
+    super(parentNode, 'main', [
+      'audio-challenge-game',
+      'audio-challenge-game__container',
+    ]);
     this.preloader = new Preloader(
       this.node,
       'div',

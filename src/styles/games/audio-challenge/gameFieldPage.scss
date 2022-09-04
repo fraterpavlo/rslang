@@ -1,11 +1,3 @@
 .game-page{
-  @include for-animated-controls-default-styles();
 
-  &.hide{
-    transform: translateX(100vw);
-  }
-
-  &.show{
-    transform: translateX(-100vw);
-  }
 }

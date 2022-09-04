@@ -3,3 +3,13 @@
   opacity: 1;
   transform: translateX(0);
 }
+
+@mixin animated-by-moving-elements {
+  &.hide{
+    transform: translateX(100vw);
+  }
+
+  &.show{
+    transform: translateX(-100vw);
+  }
+}

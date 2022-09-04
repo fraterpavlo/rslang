@@ -2,6 +2,10 @@
 @import "./common/variables";
 @import "./common/mixins";
 @import "./common/general";
+@import "./common/categoriesPage";
+@import "./common/gameFieldPage";
+@import "./common/questionView";
+@import "./common/gameOverPage";
 
 //audio-challenge game
 @import "./audio-challenge/categoriesPage";
