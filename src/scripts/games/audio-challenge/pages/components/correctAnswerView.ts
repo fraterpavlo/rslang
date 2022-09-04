@@ -7,11 +7,9 @@ import { AnimatedControl } from '../../../common/templates/animatedControl';
 
 export class CorrectAnswerView extends AnimatedControl {
   answerImage: Control<HTMLElement>;
-  wordInfoWrapper: Control<HTMLElement>;
   audioWord: Control<HTMLElement>;
   textWord: Control<HTMLElement>;
   transcriptionWord: Control<HTMLElement>;
-  exampleInfoWrapper: Control<HTMLElement>;
   audioExample: Control<HTMLElement>;
   textExample: Control<HTMLElement>;
   textExampleTranslate: Control<HTMLElement>;
@@ -31,63 +29,65 @@ export class CorrectAnswerView extends AnimatedControl {
       animatingClasses
     );
 
-    this.answerImage = new Control(this.node, 'img', [
+    const answerImageWrapper = new Control(this.node, 'div', [
+      'correct-answer-view__image-wrap',
+    ]);
+    this.answerImage = new Control(answerImageWrapper.node, 'img', [
       'correct-answer-view__image',
     ]);
     (
       this.answerImage.node as HTMLImageElement
     ).src = `${baseUrl}/${questionData.image}`;
 
-    this.wordInfoWrapper = new Control(this.node, 'div', [
+    const textContentWrapper = new Control(this.node, 'div', [
+      'correct-answer-view__text-content-wrap',
+    ]);
+    const wordInfoWrapper = new Control(textContentWrapper.node, 'div', [
       'correct-answer-view__word-info-wrap',
       'word-info',
     ]);
-    this.audioWord = new Control(
-      this.wordInfoWrapper.node,
-      'button',
-      ['common-btn', 'word-info__audio-btn'],
-      'звук'
-    );
+
+    this.audioWord = new Control(wordInfoWrapper.node, 'button', [
+      'word-info__audio-btn',
+    ]);
     this.audioWord.node.onclick = () => {
       SoundManager.playSound(`${baseUrl}/${questionData.audio}`);
     };
     this.textWord = new Control(
-      this.wordInfoWrapper.node,
+      wordInfoWrapper.node,
       'span',
       ['word-info__text-word'],
       `${questionData.word}`
     );
     this.transcriptionWord = new Control(
-      this.wordInfoWrapper.node,
+      wordInfoWrapper.node,
       'span',
       ['word-info__transcription-word'],
       `${questionData.transcription}`
     );
 
-    this.exampleInfoWrapper = new Control(this.node, 'div', [
+    const exampleInfoWrapper = new Control(textContentWrapper.node, 'div', [
       'correct-answer-view__example-info-wrap',
       'example-info',
     ]);
-    this.audioExample = new Control(
-      this.exampleInfoWrapper.node,
-      'button',
-      ['common-btn', 'example-info__audio-btn'],
-      'звук'
-    );
+    const engTextExampleWrap = new Control(exampleInfoWrapper.node, 'div', [
+      'example-info__text-example-wrap',
+    ]);
+    this.audioExample = new Control(engTextExampleWrap.node, 'button', [
+      'example-info__text-example-audio-btn',
+    ]);
     this.audioExample.node.onclick = () => {
       SoundManager.playSound(`${baseUrl}/${questionData.audioExample}`);
     };
 
-    this.textExample = new Control(this.exampleInfoWrapper.node, 'span', [
-      'word-info__text-example',
+    this.textExample = new Control(engTextExampleWrap.node, 'span', [
+      'example-info__text-example',
     ]);
     this.textExample.node.innerHTML = questionData.textExample;
 
-    this.textExampleTranslate = new Control(
-      this.exampleInfoWrapper.node,
-      'span',
-      ['word-info__text-example-translate']
-    );
+    this.textExampleTranslate = new Control(exampleInfoWrapper.node, 'span', [
+      'example-info__text-example-translate',
+    ]);
     this.textExampleTranslate.node.innerHTML =
       questionData.textExampleTranslate;
   }

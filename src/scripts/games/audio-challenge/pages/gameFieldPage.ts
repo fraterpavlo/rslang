@@ -23,8 +23,8 @@ export class GameFieldPage extends PageControl {
   private results: IAnswerData[];
   private gameSettings: IGameSettings;
   private wordsData: IWordDataWithAnswers[];
-  private progressIndicator: Control<HTMLElement>;
-  private answersIndicator: Control<HTMLElement>;
+  // private progressIndicator: Control<HTMLElement>;
+  progressIndicatorsArr: Control<HTMLElement>[];
   private timer!: Timer;
   private questionView!: QuestionView;
   private seeAnswerButton!: Control<HTMLElement>;
@@ -60,18 +60,15 @@ export class GameFieldPage extends PageControl {
     this.gameSettings = gameSettings;
 
     const headPanelWrapper = new Control(this.node, 'div', [
-      'game-page__head-panel'
+      'game-page__head-panel',
     ]);
     const exitButtonsWrapper = new Control(headPanelWrapper.node, 'div', [
       'game-page__exit-buttons-wrapper',
     ]);
 
-    const backButton = new Control(
-      exitButtonsWrapper.node,
-      'button',
-      ['common-btn', 'game-page__back-btn'],
-      'back'
-    );
+    const backButton = new Control(exitButtonsWrapper.node, 'button', [
+      'game-page__back-btn',
+    ]);
     backButton.node.addEventListener(
       'click',
       () => {
@@ -80,12 +77,9 @@ export class GameFieldPage extends PageControl {
       { once: true }
     );
 
-    const homeButton = new Control(
-      exitButtonsWrapper.node,
-      'button',
-      ['common-btn', 'game-page__home-btn'],
-      'home'
-    );
+    const homeButton = new Control(exitButtonsWrapper.node, 'button', [
+      'game-page__home-btn',
+    ]);
     homeButton.node.addEventListener(
       'click',
       () => {
@@ -94,31 +88,30 @@ export class GameFieldPage extends PageControl {
       { once: true }
     );
 
-    const fullScreenButton = new Control(
-      headPanelWrapper.node,
-      'button',
-      ['common-btn', 'game-page__fullscreen-btn'],
-      'fullscreen'
-    );
+    const fullScreenButton = new Control(headPanelWrapper.node, 'button', [
+      'game-page__fullscreen-btn',
+    ]);
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     this.mainField = new Control(this.node, 'div', [
       'game-page__main-field',
       'main-field',
     ]);
-    this.progressIndicator = new Control(
-      this.mainField.node,
-      'div',
-      ['progressIndicator']
-    );
 
-    this.timer = new Timer(this.mainField.node, 'div', ['game-page__timer']);
+    this.progressIndicatorsArr = [];
+    const progressIndicatorsWrap = new Control(this.mainField.node, 'div', [
+      'main-field__progress-indicator-wrap',
+      'progress-indicator',
+    ]);
+    for (let i = 0; i < this.gameSettings.questionsInGameAmount; i++) {
+      this.progressIndicatorsArr.push(
+        new Control(progressIndicatorsWrap.node, 'div', [
+          'progress-indicator__item',
+        ])
+      );
+    }
 
-    this.answersIndicator = new Control(
-      this.mainField.node,
-      'div',
-      ['answersIndicator']
-    );
+    this.timer = new Timer(this.mainField.node, 'div', ['main-field__timer']);
 
     this.questionCycle();
 
@@ -162,13 +155,6 @@ export class GameFieldPage extends PageControl {
   }
 
   questionCycle() {
-    this.progressIndicator.node.textContent = `${
-      this.currentQuestionIndex + 1
-    } / ${this.gameSettings.questionsInGameAmount}`;
-    this.answersIndicator.node.textContent = this.results
-      .map((answerData: IAnswerData) => (answerData.answerResult ? '+' : '-'))
-      .join(' ');
-
     this.questionView = new QuestionView(
       this.mainField.node,
       this.wordsData[this.currentQuestionIndex]
@@ -184,8 +170,8 @@ export class GameFieldPage extends PageControl {
     this.seeAnswerButton = new Control(
       this.mainField.node,
       'button',
-      ['common-btn', 'game-page__see-answer-btn'],
-      '***показать ответ***'
+      ['common-btn', 'main-field__see-answer-btn'],
+      'показать ответ'
     );
 
     this.seeAnswerButton.node.addEventListener(
@@ -214,6 +200,10 @@ export class GameFieldPage extends PageControl {
     isCorrectAnswer
       ? SoundManager.playSound(ELocalSoundsUrlList.success)
       : SoundManager.playSound(ELocalSoundsUrlList.fail);
+
+    this.progressIndicatorsArr[this.currentQuestionIndex]?.node.classList.add(
+      `${isCorrectAnswer ? 'correct-answer' : 'incorrect-answer'}`
+    );
 
     const correctAnswerBtn =
       this.questionView.answersBtnArr[indexOfCorrectAnswer];
@@ -245,8 +235,8 @@ export class GameFieldPage extends PageControl {
     this.nextQuestionButton = new Control(
       this.mainField.node,
       'button',
-      ['common-btn', 'game-page__next-question-btn'],
-      '->-->--->'
+      ['common-btn', 'main-field__next-question-btn'],
+      'следующий вопрос'
     );
     this.nextQuestionButton.node.addEventListener(
       'click',

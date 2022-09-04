@@ -19,7 +19,7 @@ export class QuestionView extends AnimatedControl {
     super(
       parentNode,
       'div',
-      ['game-page__question-container', 'question-view'],
+      ['main-field__question-container', 'question-view'],
       animatingClasses
     );
     this.questionAudio = SoundManager.playSound(`${baseUrl}/${wordData.audio}`);
@@ -31,17 +31,20 @@ export class QuestionView extends AnimatedControl {
     this.questionAudioBtn = new Control(
       this.questionDataWrapper.node,
       'button',
-      ['common-btn', 'question-data__question-audio-btn'],
-      'кнопка звука'
+      ['question-data__question-audio-btn']
     );
     this.questionAudioBtn.node.addEventListener(
       'click',
       this.onQuestionAudioBtnListener.bind(this, wordData.audio)
     );
 
+    const answerButtonsWrap = new Control(this.node, 'div', [
+      'question-view__answers-buttons-wrap',
+    ]);
+
     this.answersBtnArr = wordData.answers.map((answer) => {
       return new Control(
-        this.node,
+        answerButtonsWrap.node,
         'button',
         ['common-btn', 'question-view__answer-btn'],
         answer.toString()

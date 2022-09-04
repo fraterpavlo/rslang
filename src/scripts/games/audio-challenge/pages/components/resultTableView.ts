@@ -26,12 +26,9 @@ export class resultTableView extends Control {
       'table-row',
     ]);
 
-    const wordSoundButton = new Control(
-      tableRow.node,
-      'button',
-      ['table-row__word-sound-btn'],
-      'звук'
-    );
+    const wordSoundButton = new Control(tableRow.node, 'button', [
+      'table-row__word-sound-btn',
+    ]);
     wordSoundButton.node.addEventListener('click', () => {
       SoundManager.playSound(`${baseUrl}/${answerData.wordAudioURL}`);
     });
@@ -58,7 +55,7 @@ export class resultTableView extends Control {
       tableRow.node,
       'span',
       ['table-row__result-icon'],
-      `${answerData.answerResult ? '+' : '-'}`
+      `${answerData.answerResult ? '✔️' : '❌'}`
     );
     answerData.answerResult
       ? answerResult.node.classList.add('table-row__result-icon_correct')

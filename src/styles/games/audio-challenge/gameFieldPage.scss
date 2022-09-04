@@ -1,3 +1,37 @@
-.game-page{
+.main-field {
+  &__progress-indicator-wrap {
+    max-width: 50%;
+  }
 
+  &__question-container {
+    justify-content: space-around;
+    gap: 20px;
+    width: 80%;
+    height: 50%;
+    will-change: transform;
+  }
+
+  &__see-answer-btn {}
+}
+
+.progress-indicator {
+  @include flex();
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+
+  &__item {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: $color-grey;
+
+    &.correct-answer {
+      background-color: $color-green;
+    }
+
+    &.incorrect-answer {
+      background-color: $color-red;
+    }
+  }
 }

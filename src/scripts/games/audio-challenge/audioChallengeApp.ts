@@ -10,6 +10,8 @@ import { GameOverPage } from './pages/gameOverPage';
 import { SoundManager } from '../common/soundManager';
 import { Preloader } from '../common/templates/preloader';
 
+import '../../../styles/games/audio-challenge-game.scss';
+
 export class AudioChallengeApp extends Control {
   dataModel: GameDataModel;
   settingsModel: GameSettingsModel;

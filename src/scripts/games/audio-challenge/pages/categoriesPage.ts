@@ -22,12 +22,10 @@ export class CategoriesPage extends PageControl {
     const headPanelWrapper = new Control(this.node, 'div', [
       'categories-page__head-panel',
     ]);
-    const backButton = new Control(
-      headPanelWrapper.node,
-      'button',
-      ['common-btn', 'categories-page__button_back'],
-      'back'
-    );
+    const backButton = new Control(headPanelWrapper.node, 'button', [
+      'common-btn',
+      'categories-page__back-btn',
+    ]);
     backButton.node.addEventListener(
       'click',
       () => {
@@ -39,18 +37,50 @@ export class CategoriesPage extends PageControl {
     //   this.onHome();
     // };
 
-    const fullScreenButton = new Control(
-      headPanelWrapper.node,
-      'button',
-      ['common-btn', 'categories-page__fullscreen-btn'],
-      'fullscreen'
-    );
+    const fullScreenButton = new Control(headPanelWrapper.node, 'button', [
+      'common-btn',
+      'categories-page__fullscreen-btn',
+    ]);
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     const mainField = new Control(this.node, 'div', [
       'categories-page__main-field',
       'main-field',
     ]);
+
+    new Control(
+      mainField.node,
+      'h1',
+      ['game-name-title', 'main-field__game-name-title'],
+      'Аудиовызов'
+    );
+
+    const gameDescriptionWrapper = new Control(mainField.node, 'div', [
+      'main-field__game-description-wrap',
+      'game-description',
+    ]);
+    gameDescriptionWrapper.node.innerHTML = `
+      <p class="game-description__description">
+        «Аудиовызов» - это игра, которая улучшает восприятие речи на слух.
+        Каждый раунд вам нужно правильно перести слово, которое будет озвучена на английском. Слова разделены на
+        категории по возрастанию сложности. Выберите категорию.
+      </p>
+      <ul class="game-description__instructions-list instructions-list">
+        <li class="instructions-list__item">
+          Используйте мышь, чтобы выбрать.
+        </li>
+        <li class="instructions-list__item">
+          Используйте цифровые клавиши от 1 до 5 для выбора ответа
+        </li>
+        <li class="instructions-list__item">
+          Используйте пробел для повтроного звучания слова
+        </li>
+        <li class="instructions-list__item">
+          Используйте клавишу Enter для подсказки или для перехода к следующему слову
+        </li>
+      </ul>
+    `;
+
     const categoriesContainer = new Control(mainField.node, 'div', [
       'main-field__categories-wrap',
       'categories',
