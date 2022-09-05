@@ -1,6 +1,6 @@
 import { IRoute } from '../scripts/common/interfaces';
 import { Component } from '../scripts/common/templates/component';
-import { AuthContainer } from '../scripts/main/main-container/index';
+import { AuthContainer } from '../scripts/main';
 import { AuthPopup } from '../scripts/main/auth-popup/signin-popup';
 
 export class Router {

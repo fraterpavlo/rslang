@@ -1,9 +1,7 @@
-@import "../../../styles/common/mixins.scss";
-
 .points {
     &__register {
         background-color: #ffffff00;
-        background-image: url(../../../assets/register.png);
+        background-image: url(../../../assets/img/register.png);
         background-size: 100%;
         display: block;
         height: 83px;
@@ -15,7 +13,7 @@
 
     &__textbook {
         display: block;
-        background-image: url(../../../assets/textbook.png);
+        background-image: url(../../../assets/img/textbook.png);
         background-size: cover;
         height: 135px;
         width: 168px;
@@ -25,7 +23,7 @@
 
     &__about {
         display: block;
-        background-image: url(../../../assets/about.png);
+        background-image: url(../../../assets/img/about.png);
         background-size: cover;
         height: 135px;
         width: 150px;
@@ -53,25 +51,17 @@
     }
 }
 
-.footer {
-    background-image: url(../../../assets/home.svg);
+.main__cont {
+    background-image: url(../../../assets/icons/home.svg);
+    background-repeat: no-repeat;
+    background-position: center;
     height: 459px;
-    width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    &__info {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        font-size: 24px;
-        /* padding: 30px 20px; */
-        color: #a0a0a0;
-    }
 }
 
 %tocenter {
