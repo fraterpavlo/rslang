@@ -1,0 +1,34 @@
+@import "../../../styles/common/mixins.scss";
+
+.footer {
+    margin: 0px 40px;
+
+    &__info {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: end;
+        font-size: 24px;
+        color: #a0a0a0;
+    }
+
+    &__git--user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+    }
+}
+
+.school img {
+    height: 50px;
+    margin: 10px;
+    filter: invert(72%) sepia(22%) saturate(11%) hue-rotate(34deg) brightness(97%) contrast(93%);
+}
+
+.school {
+    flex-grow: 1;
+    display: flex;
+    justify-content: start;
+}

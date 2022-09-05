@@ -1,0 +1,24 @@
+@import "../../../styles/common/mixins.scss";
+
+.main {
+    &__title {
+        @include fontz(128px, 160px, 400);
+
+        text-align: center;
+        font-family: 'Bradley';
+        font-weight: bold;
+        color: #fefefe;
+    }
+
+    &__subtitle {
+        @include fontz(48px, 60px, 400);
+
+        text-align: center;
+        font-family: 'Bradley';
+        text-shadow: none;
+
+        span {
+            color: #9C303C;
+        }
+    }
+}

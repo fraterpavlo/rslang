@@ -1,12 +1,3 @@
-@import url(./styles/statistics/style.scss);
+@import url("./styles/common/_reset.scss");
+@import url("./styles/common/mixins.scss");
 
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: darkslategrey;
-  color: white;
-  text-transform: uppercase;
-}

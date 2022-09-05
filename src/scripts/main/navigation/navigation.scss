@@ -1,0 +1,71 @@
+.points {
+    &__register {
+        background-color: #ffffff00;
+        background-image: url(../../../assets/img/register.png);
+        background-size: 100%;
+        display: block;
+        height: 83px;
+        width: 280px;
+        border-radius: 30px !important;
+        transition: 0.2s;
+        transform: rotate(2deg)
+    }
+
+    &__textbook {
+        display: block;
+        background-image: url(../../../assets/img/textbook.png);
+        background-size: cover;
+        height: 135px;
+        width: 168px;
+        box-shadow: 10px 8px 15px #000;
+        transition: 0.2s;
+    }
+
+    &__about {
+        display: block;
+        background-image: url(../../../assets/img/about.png);
+        background-size: cover;
+        height: 135px;
+        width: 150px;
+        margin-top: 5px !important;
+        box-shadow: 10px 8px 20px #000;
+        transition: 0.2s;
+    }
+
+    &__textbook:hover,
+    &__about:hover,
+    &__register:hover {
+        transform: translate(0, -2px);
+    }
+
+    &__register,
+    &__about,
+    &__textbook {
+        color: #ffffff !important;
+        font-size: 28px;
+        margin: 0 auto;
+        flex-direction: column;
+        border-radius: 50%;
+
+        @extend %tocenter;
+    }
+}
+
+.main__cont {
+    background-image: url(../../../assets/icons/home.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 459px;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+%tocenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -4,8 +4,15 @@
   display: flex;
 }
 
+@mixin fontz($size, $hght, $wdth) {
+  font-size: $size;
+  line-height: $hght;
+  font-weight: $wdth;
+}
+
 @mixin mask($url, $position, $size, $repeat) {
   mask: url($url) $position / $size $repeat;
   -moz-mask: url($url) $position / $size $repeat;
   -webkit-mask: url($url) $position / $size $repeat;
 }
+
