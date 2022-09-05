@@ -1,6 +1,6 @@
 import { IGameResponse, LOCAL } from "../interfaces/statistic";
 
-const base = 'https://react-learnwords-example.herokuapp.com'
+const base = 'https://rs-lang-rss-task.herokuapp.com'
 
 export const loginUser = async (user: { email: string; password: string; }) => {
   const rawResponse = await fetch(`${base}/signin`, {
@@ -31,6 +31,19 @@ export const getStatisticRequest = async (userId: string): Promise<IGameResponse
       'Content-Type': 'application/json',
     },
   }).then((result) => {
-    
     return result.json();
   });
+
+
+  export const getUserStatistics = async (userId: string) => {
+    const rawResponse = await fetch(`${base}/users/${userId}/statistics`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getUserToken()}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      const content = await rawResponse.json()
+      return content
+    }

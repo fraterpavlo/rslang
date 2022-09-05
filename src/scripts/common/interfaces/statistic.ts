@@ -8,25 +8,24 @@ export interface AppModel {
   init(): void;
 }
 
-export enum Game {
+export enum TwoGames {
   challenge,
   sprint,
 }
 
 export interface IStatistic {
-  rightWords: number;
-  wrongWords: number;
-  totalCount: number;
-  longestSeries: number;
-  newWordsOfDay: number;
-  game: Game;
+  right: number;
+  wrong: number;
+  total: number;
+  longSeries: number;
+  newWords: number;
+  game: TwoGames;
 }
 
 
 export interface Iwords {
   id: string;
-  difficulty: string;
-  userId: string
+  learnedWords: number
 }
 
 export interface IGameResponse {

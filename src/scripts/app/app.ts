@@ -8,7 +8,7 @@ export class App implements AppModel {
     this.statistic = new Statistics();
   }
 
-  public async init(): Promise<void> {
+  public init(): void {
     this.statistic.statistics();
 
   }
