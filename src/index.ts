@@ -1,5 +1,3 @@
-import { AudioChallengeApp } from './scripts/games/audio-challenge/audioChallengeApp';
+import './style.scss';
 
 console.log('Hello world');
-
-new AudioChallengeApp(document.body);

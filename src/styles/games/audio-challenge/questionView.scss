@@ -1,14 +1,7 @@
 .question-view {
   @include for-animated-controls-default-styles();
-
   @include animated-by-moving-elements;
-  // &.hide{
-  //   transform: translateX(100vw);
-  // }
-
-  // &.show{
-  //   transform: translateX(-100vw);
-  // }
+  font-family: $main-font-article;
 
   &__question-data-wrapper {
     width: 80%;
@@ -57,7 +50,6 @@
 
 .correct-answer-view {
   @include for-animated-controls-default-styles();
-  // background-color: yellowgreen; //!del
   @include flex();
   justify-content: space-around;
 

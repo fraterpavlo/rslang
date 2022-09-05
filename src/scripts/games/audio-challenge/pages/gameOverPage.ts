@@ -32,16 +32,6 @@ export class GameOverPage extends PageControl {
     );
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
-    // const resultIndicator = new Control(
-    //   this.node,
-    //   'div',
-    //   ['game-over-page__resultIndicator'],
-    //   ''
-    // );
-    // resultIndicator.node.textContent = results
-    //   .map((answerData: IAnswerData) => (answerData.answerResult ? '+' : '-'))
-    //   .join(' ');
-
     const mainField = new Control(this.node, 'div', [
       'game-over-page__main-field',
       'main-field',

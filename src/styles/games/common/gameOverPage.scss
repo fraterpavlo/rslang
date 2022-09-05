@@ -7,15 +7,7 @@
   justify-content: flex-start;
   align-items: center;
   @include for-animated-controls-default-styles();
-
   @include animated-by-moving-elements;
-  // &.hide{
-  //   transform: translateX(100vw);
-  // }
-
-  // &.show{
-  //   transform: translateX(-100vw);
-  // }
 
   &__head-panel {
     width: 100%;
@@ -116,6 +108,7 @@
     border-radius: 3px;
   }
 }
+
 .table-row {
   @include flex();
   justify-content: space-between;
@@ -141,17 +134,10 @@
     text-align: center;
   }
 
-  &__word {}
-
-  &__transcription {}
-
-  &__translate {}
-
-
   &__result-icon {
     flex-basis: 5%;
     flex-shrink: 0;
 
-    &_incorrect {}
+    // &_incorrect {}
   }
 }

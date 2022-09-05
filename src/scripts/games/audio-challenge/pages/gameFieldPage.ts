@@ -18,20 +18,19 @@ export class GameFieldPage extends PageControl {
   onBack!: () => void;
   onHome!: () => void;
   onFinish!: (results: IAnswerData[]) => void;
-  answerShown: boolean;
-  currentQuestionIndex: number;
+  private answerShown: boolean;
+  private currentQuestionIndex: number;
   private results: IAnswerData[];
   private gameSettings: IGameSettings;
   private wordsData: IWordDataWithAnswers[];
-  // private progressIndicator: Control<HTMLElement>;
-  progressIndicatorsArr: Control<HTMLElement>[];
+  private mainField: Control<HTMLElement>;
+  private progressIndicatorsArr: Control<HTMLElement>[];
   private timer!: Timer;
   private questionView!: QuestionView;
   private seeAnswerButton!: Control<HTMLElement>;
   private nextQuestionButton!: Control<HTMLElement>;
   bindedWithThisKeyboardListener: (event: KeyboardEvent) => void;
   bindedWithThisQuestionAudioEndedListener!: () => void;
-  mainField: Control<HTMLElement>;
 
   constructor(
     parentNode: HTMLElement,
@@ -306,7 +305,6 @@ export class GameFieldPage extends PageControl {
           : this.seeAnswerButton.node.click();
         break;
       default:
-        console.log(`unusable key ${clickedKeyCode}`);
         return;
     }
   }

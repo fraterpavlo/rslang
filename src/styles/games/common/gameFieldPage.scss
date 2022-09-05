@@ -1,14 +1,6 @@
 .game-page{
   @include for-animated-controls-default-styles();
-
   @include animated-by-moving-elements;
-  // &.hide{
-  //   transform: translateX(100vw);
-  // }
-
-  // &.show{
-  //   transform: translateX(-100vw);
-  // }
   @include flex();
   flex-direction: column;
   justify-content: flex-start;
@@ -75,10 +67,11 @@
   }
 
   &__timer {
-    width: 150px;
-    height: 60px;
+    width: 4rem;
+    height: 4rem;
     font-size: 3rem;
     font-family: fantasy;
     color: $main-color2;
+    text-align: center;
   }
 }

@@ -1,4 +1,3 @@
-// <MAIN========================================
 .container, 
 [class*="__container"] {
   width: 100%;
@@ -7,7 +6,6 @@
   padding: 0 20px;
   margin: 0 auto;
 }
-// </MAIN=======================================
 
 html,
 body {
@@ -100,7 +98,14 @@ button:disabled {
 
 
 .preloader {
+  @include flex();
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 100%;
-  margin: 0 auto;
+  height: 100%;;
+}
+
+.sprint-game__container,
+.audio-challenge-game__container {
+  overflow-x: hidden;
 }

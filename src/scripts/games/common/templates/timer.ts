@@ -20,7 +20,7 @@ export class Timer extends Control {
     }
     let currentTime = time;
     const render = (currentTime: number) => {
-      this.node.textContent = `${currentTime} / ${this.initialTime}`;
+      this.node.textContent = `${currentTime}`;
     };
     render(time);
 

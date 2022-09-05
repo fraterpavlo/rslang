@@ -33,9 +33,6 @@ export class CategoriesPage extends PageControl {
       },
       { once: true }
     );
-    // backButton.node.onclick = () => {
-    //   this.onHome();
-    // };
 
     const fullScreenButton = new Control(headPanelWrapper.node, 'button', [
       'common-btn',

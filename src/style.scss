@@ -1,29 +1,10 @@
-//GENERAL
-@import './styles/common/reset';
-@import './styles/common/mixins';
-
-//games
-@import './styles/games/games';
-
-
-
-
-// body {
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   // background-color: darkslategrey;
-//   // color: white;
-//   text-transform: uppercase;
-//   overflow: hidden;
-// }
-
-// .container,
-// [class*="__container"] {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-// }
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: darkslategrey;
+  color: white;
+  text-transform: uppercase;
+}

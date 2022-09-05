@@ -1,14 +1,6 @@
 .categories-page {
   @include for-animated-controls-default-styles();
-
   @include animated-by-moving-elements;
-  // &.hide{
-  //   transform: translateX(100vw);
-  // }
-
-  // &.show{
-  //   transform: translateX(-100vw);
-  // }
   @include flex();
   flex-direction: column;
   justify-content: flex-start;
@@ -54,18 +46,13 @@
   align-items: center;
   gap: 1rem;
 
-  &__game-name-title {}
-
   &__game-description-wrap {
     max-width: 50%;
-  }
-
-  &__categories-wrap {
-
   }
 }
 
 .game-name-title {
+  font-family: $main-font;
   font-size: 4rem;
 }
 .game-description {
@@ -74,6 +61,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  font-family: $main-font;
   text-align: justify;
 
   &__description {
@@ -87,10 +75,6 @@
 }
 .instructions-list {
   list-style: disc;
-
-  &__item {
-
-  }
 }
 
 .categories {
@@ -100,8 +84,6 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  
-  &__button {}
 }
 
 
