@@ -1,0 +1,77 @@
+.game-page{
+  @include for-animated-controls-default-styles();
+  @include animated-by-moving-elements;
+  @include flex();
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__head-panel {
+    width: 100%;
+    min-height: 50px;
+    @include flex();
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__exit-buttons-wrapper {
+    @include flex();
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__back-btn {
+    width: 2rem;
+    height: 2rem;
+    @include mask("../../assets/svg/leftVector_white.svg", center, contain, no-repeat);
+    background-color: $main-color2;
+  }
+
+  &__home-btn {
+    width: 2rem;
+    height: 2rem;
+    @include mask("../../assets/svg/home-icon.svg", center, contain, no-repeat);
+    background-color: $main-color2;
+  }
+
+  &__fullscreen-btn {
+    width: 2rem;
+    height: 2rem;
+    @include mask("../../assets/svg/fullscreen-open.svg", center, contain, no-repeat);
+    background-color: $main-color2;
+
+    :-webkit-full-screen & {
+      @include mask("../../assets/svg/fullscreen-exit.svg", center, contain, no-repeat);
+    }
+  }
+
+  &__main-field {
+    width: 100%;
+    height: 100%
+  }
+}
+
+.main-field {
+  @include flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+
+  &__question-container {
+    @include flex();
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__timer {
+    width: 4rem;
+    height: 4rem;
+    font-size: 3rem;
+    font-family: fantasy;
+    color: $main-color2;
+    text-align: center;
+  }
+}

@@ -1,0 +1,127 @@
+.question-view {
+  @include for-animated-controls-default-styles();
+  @include animated-by-moving-elements;
+  font-family: $main-font-article;
+
+  &__question-data-wrapper {
+    width: 80%;
+    height: 100%;
+  }
+
+  &__answers-buttons-wrap {
+    max-width: 90%;
+    @include flex();
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &__answer-btn {
+    &.correct-answer {
+      background-color: $color-green;
+    }
+
+    &.incorrect-answer {
+      background-color: $color-red;
+    }
+  }
+}
+
+.question-data {
+  background-color: $main-color2;
+  @include flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+
+  &__question-audio-btn {
+    width: 50%;
+    height: 50%;
+    @include mask("../../assets/svg/speaker-icon.svg", center, contain, no-repeat);
+    background-color: $main-color1;
+  }
+
+  &__correct-answer-wrap {
+    width: 100%
+  }
+}
+
+.correct-answer-view {
+  @include for-animated-controls-default-styles();
+  @include flex();
+  justify-content: space-around;
+
+  &__image-wrap {
+    flex-basis: 40%;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__image {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &__text-content-wrap{
+    flex-basis: 50%;
+  }
+
+  &__word-info-wrap,
+  &__example-info-wrap {
+    @include flex();
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 1.2rem;
+    text-align: justify;
+    color: $font-color-light;
+  }
+
+  &.hide {
+    opacity: 1;
+  }
+
+  &.show {
+    opacity: 0;
+  }
+}
+.word-info {
+
+  &__audio-btn {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    @include mask("../../assets/svg/speaker-icon.svg", center, contain, no-repeat);
+    background-color: $main-color1;
+  }
+
+  &__text-word {}
+
+  &__transcription-word {}
+}
+
+.example-info {
+
+  &__text-example-wrap {
+    @include flex();
+    gap: 5px;
+  }
+
+  &__text-example-audio-btn {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    @include mask("../../assets/svg/speaker-icon.svg", center, contain, no-repeat);
+    background-color: $main-color1;
+  }
+
+  &__text-example {}
+
+  &__text-example-translate {
+    margin-left: 30px;
+  }
+}
+
