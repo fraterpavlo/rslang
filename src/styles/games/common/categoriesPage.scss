@@ -1,6 +1,5 @@
 .categories-page {
   @include for-animated-controls-default-styles();
-
   @include animated-by-moving-elements;
   @include flex();
   flex-direction: column;

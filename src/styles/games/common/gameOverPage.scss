@@ -108,6 +108,7 @@
     border-radius: 3px;
   }
 }
+
 .table-row {
   @include flex();
   justify-content: space-between;
@@ -132,7 +133,6 @@
     font-size: 1rem;
     text-align: center;
   }
-
 
   &__result-icon {
     flex-basis: 5%;

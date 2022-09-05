@@ -1,0 +1,18 @@
+//common styles
+@import '../common/_reset';
+@import '../common/mixins';
+
+//common games styles
+@import "./common/fonts";
+@import "./common/variables";
+@import "./common/mixins";
+@import "./common/general";
+@import "./common/categoriesPage";
+@import "./common/gameFieldPage";
+@import "./common/gameOverPage";
+
+//audio-challenge game
+@import "./audio-challenge/categoriesPage";
+@import "./audio-challenge/gameFieldPage";
+@import "./audio-challenge/questionView";
+@import "./audio-challenge/gameOverPage";
