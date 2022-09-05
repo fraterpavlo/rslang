@@ -1,0 +1,15 @@
+.question-view {
+  
+  &__question-word{
+    font-size: 3rem;
+    font-family: $main-font;
+    color: $main-color1;
+  }
+
+  &__question-translate{
+    font-size: 2rem;
+    font-family: $main-font;
+    color: $main-color1;
+  }
+}
+

@@ -4,7 +4,6 @@ export interface IAnimatingClasses {
   show: string;
 }
 
-
 //GameDataModel
 export interface IWordData {
   id: string;
