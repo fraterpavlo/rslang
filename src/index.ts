@@ -7,4 +7,3 @@ window.addEventListener('DOMContentLoaded', () => {
 
     app.init();
 });
-

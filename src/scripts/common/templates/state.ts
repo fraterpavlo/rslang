@@ -1,8 +1,8 @@
-import { Signal } from "./signal";
+import { Signal } from './signal';
 
-export class State <DataType> {
+export class State<DataType> {
   private data: DataType;
-  public onUpdate: Signal<{from: DataType, to: DataType}> = new Signal();
+  public onUpdate: Signal<{ from: DataType; to: DataType }> = new Signal();
   constructor(initialState: DataType) {
     this.data = initialState;
   }
@@ -10,7 +10,7 @@ export class State <DataType> {
   setData(data: DataType) {
     const lastData = this.data;
     this.data = data;
-    this.onUpdate.emit({from: lastData, to: this.data})
+    this.onUpdate.emit({ from: lastData, to: this.data });
   }
 
   getData() {

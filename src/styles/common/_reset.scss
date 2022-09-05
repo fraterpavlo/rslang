@@ -1,100 +1,100 @@
 * {
-    padding: 0;
-    border: 0;
-    margin: 0;
-  }
-   /* HTML5 display-role reset for older browsers */
-  article,
-  aside,
-  details,
-  figcaption,
-  figure,
-  footer,
-  header,
-  hgroup,
-  menu,
-  nav,
-  section {
-    display: block;
-  }
-  
-  span,
-  a {
-    display: inline-block;
-  }
-  
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-  
-  /* //box sizing */
-  *,
-  *::before,
-  *::after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-  
-  /* // give standard styling to all ul and il that have a class attribute
-  // Removing padding */
-  ul[class],
-  ol[class] {
-    padding: 0;
-    list-style: none;
-  }
-  
-  /* // a elements, reset to default styles */
-  a,
-  a:visited {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: none;
-  }
-  
-  a:focus,
-  a:active {
-    outline: none;
-  }
-  
-  :focus,
-  :active {
-    outline: none;
-  }
-  
-  /* // Making it easy to work with images */
-  img {
-    vertical-align: top;
-  }
-  
-  // Buttons, inputs style reset
-  input::-ms-clear {
-    display: none;
-  }
-  
-  /* // Inheriting fonts for inputs and buttons */
-  button {
-    cursor: pointer;
-  }
-  
-  button::-moz-focus-inner {
-    padding: 0;
-    border: 0;
-  }
-  
-  /* // headlines */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: inherit;
-    font-weight: inherit;
-  }
-  
-  /* // End of reset style  */
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+// HTML5 display-role reset for older browsers
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+span,
+a {
+  display: inline-block;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+//box sizing
+*,
+*::before,
+*::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+// give standard styling to all ul and il that have a class attribute
+// Removing padding
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+// a elements, reset to default styles
+a,
+a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+// Making it easy to work with images
+img {
+  vertical-align: top;
+}
+
+// Buttons, inputs style reset
+input::-ms-clear {
+  display: none;
+}
+
+// Inheriting fonts for inputs and buttons
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+// headlines
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+// End of reset style 

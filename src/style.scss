@@ -1,21 +1,3 @@
 @import url("./styles/common/_reset.scss");
 @import url("./styles/common/mixins.scss");
 
-@font-face {
-  font-family: "Bradley";
-  src: url(./assets/fonts/BRADHITC.TTF);
-}
-
-@mixin fontz($size, $hght, $wdth) {
-  font-size: $size;
-  line-height: $hght;
-  font-weight: $wdth;
-}
-
-body {
-  user-select: none;
-  min-height: 100%;
-  color: #fff;
-  font-family: "Bradley", "Roboto", sans-serif;
-  position: relative;
-}
