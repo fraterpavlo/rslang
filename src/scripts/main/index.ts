@@ -15,7 +15,7 @@ export class AuthContainer extends Component {
         new Title(this.element);
         new Games(this.element);
         new AuthPopup(this.element);
-        
+
         this.container = new Component(this.element, 'div', ['main__cont']); 
         new Navigation(this.container.element);
         new Footer(this.container.element);
