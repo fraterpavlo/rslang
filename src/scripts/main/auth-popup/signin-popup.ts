@@ -64,7 +64,7 @@ export class AuthPopup extends Component {
         this.labelPass = new Component(inputPassContainer.element, 'label', ['labelEmail'], 'Пароль:');
         this.labelPass.element.setAttribute('for', 'inputIdemail');
 
-        this.inputPass = new UIInput(inputPassContainer.element, 'text', ['inputEmail']);
+        this.inputPass = new UIInput(inputPassContainer.element, 'password', ['inputEmail']);
         this.inputPass.element.setAttribute('id', 'inputIdemail');
         this.inputPass.getInputValue = (event) => this.updateState('password', event);
 

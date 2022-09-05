@@ -11,7 +11,7 @@ import { Preloader } from '../common/templates/preloader';
 
 import '../../../styles/games/sprint-game.scss';
 
-export class AudioChallengeApp extends Control {
+export class SprintApp extends Control {
   dataModel: GameDataModel;
   preloader: Preloader;
 

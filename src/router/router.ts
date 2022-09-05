@@ -2,6 +2,8 @@ import { IRoute } from '../scripts/common/interfaces';
 import { Component } from '../scripts/common/templates/component';
 import { AuthContainer } from '../scripts/main';
 import { AuthPopup } from '../scripts/main/auth-popup/signin-popup';
+import { AudioChallengeApp } from '../scripts/games/audio-challenge/audioChallengeApp';
+import { SprintApp } from './../scripts/games/sprint/sprintApp';
 
 export class Router {
     private readonly routes: Array<IRoute>;
@@ -23,9 +25,7 @@ export class Router {
             },
             {
                 name: 'auth',
-                component: () => {
-                    console.log('audioGamePage');
-                    
+                component: () => {                    
                     const popup = new AuthPopup(this.rootElement);
                     this.rootElement.append(authPage?.element);
                     this.rootElement.append(popup.element);
@@ -34,13 +34,13 @@ export class Router {
             {
                 name: 'audio-challenge',
                 component: () => {
-                    // alert('Audio-game page!');
+                    new AudioChallengeApp(this.rootElement);
                 },
             },
             {
-                name: 'secondgame',
+                name: 'sprint',
                 component: () => {
-                    // alert('Second game page!');
+                    new SprintApp(this.rootElement);
                 },
             }
         ];
@@ -48,7 +48,7 @@ export class Router {
         this.defaultRoute = {
             name: 'Default router',
             component: () => {
-                this.rootElement.innerHTML = 'Default Page';
+                this.rootElement.append(authPage?.element);
             },
         };
     }

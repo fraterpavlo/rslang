@@ -1,5 +1,18 @@
 @import "./../../styles/common/mixins.scss";
 
+@font-face {
+    font-family: "Bradley";
+    src: url(../../assets/fonts/BRADHITC.TTF);
+}
+
+body {
+    user-select: none;
+    min-height: 100%;
+    color: #fff;
+    font-family: "Bradley", "Roboto", sans-serif;
+    position: relative;
+}
+
 .main {
 
     &__container {

@@ -12,17 +12,17 @@ export class Games extends Component {
             this.element,
             'a',
             ['main__game'],
-            'Игра 1',
+            'Аудиовызов',
         );
 
         this.linkToSecondGame = new Component(
             this.element,
             'a',
             ['main__game'],
-            'Игра 2',
+            'Спринт',
         );
 
         this.linkToFirstGame.element.setAttribute('href', '#audio-challenge');
-        this.linkToSecondGame.element.setAttribute('href', '#secondgame');
+        this.linkToSecondGame.element.setAttribute('href', '#sprint');
     }
 }
