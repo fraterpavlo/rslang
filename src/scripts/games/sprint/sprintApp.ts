@@ -9,6 +9,8 @@ import { GameOverPage } from './pages/gameOverPage';
 import { SoundManager } from '../common/soundManager';
 import { Preloader } from '../common/templates/preloader';
 
+import '../../../styles/games/sprint-game.scss';
+
 export class AudioChallengeApp extends Control {
   dataModel: GameDataModel;
   preloader: Preloader;

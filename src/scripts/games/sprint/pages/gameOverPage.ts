@@ -25,12 +25,10 @@ export class GameOverPage extends PageControl {
       'game-over-page__head-panel',
     ]);
 
-    const fullScreenButton = new Control(
-      headPanelWrapper.node,
-      'button',
-      ['common-btn', 'game-over-page__fullscreen-btn'],
-      'fullscreen'
-    );
+    const fullScreenButton = new Control(headPanelWrapper.node, 'button', [
+      'common-btn',
+      'game-over-page__fullscreen-btn',
+    ]);
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     const mainField = new Control(this.node, 'div', [
@@ -44,22 +42,18 @@ export class GameOverPage extends PageControl {
       'game-over-page__exit-buttons-wrapper',
     ]);
 
-    const nextButton = new Control(
-      exitButtonsWrapper.node,
-      'button',
-      ['common-btn', 'game-over-page__next-btn'],
-      'next'
-    );
+    const nextButton = new Control(exitButtonsWrapper.node, 'button', [
+      'common-btn',
+      'game-over-page__next-btn',
+    ]);
     nextButton.node.onclick = () => {
       this.onNext();
     };
 
-    const homeButton = new Control(
-      exitButtonsWrapper.node,
-      'button',
-      ['common-btn', 'game-over-page__home-btn'],
-      'home'
-    );
+    const homeButton = new Control(exitButtonsWrapper.node, 'button', [
+      'common-btn',
+      'game-over-page__home-btn',
+    ]);
     homeButton.node.onclick = () => {
       this.onHome();
     };

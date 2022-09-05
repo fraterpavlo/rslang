@@ -1,0 +1,143 @@
+
+.game-over-page {
+  width: 100%;
+  height: 100%;
+  @include flex();
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  @include for-animated-controls-default-styles();
+  @include animated-by-moving-elements;
+
+  &__head-panel {
+    width: 100%;
+    min-height: 50px;
+    @include flex();
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &__fullscreen-btn {
+    width: 2rem;
+    height: 2rem;
+    @include mask("../../assets/svg/fullscreen-open.svg", center, contain, no-repeat);
+    background-color: $main-color2;
+
+    :-webkit-full-screen & {
+      @include mask("../../assets/svg/fullscreen-exit.svg", center, contain, no-repeat);
+    }
+  }
+
+  &__main-field {
+    width: 100%;
+    height: 100%
+  }
+
+  &__result-table {
+    width: 100%;
+    max-width: 500px;
+    height: 80%;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: $main-color2;
+    color: $font-color-light;
+  }
+
+  &__exit-buttons-wrapper {
+    @include flex();
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &__next-btn {
+    width: 2rem;
+    height: 2rem;
+    @include mask("../../assets/svg/retry-icon.svg", center, contain, no-repeat);
+    background-color: $main-color2;
+  }
+
+  &__home-btn {
+    width: 2rem;
+    height: 2rem;
+    @include mask("../../assets/svg/home-icon.svg", center, contain, no-repeat);
+    background-color: $main-color2;
+  }
+}
+
+.main-field {
+  @include flex();
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.result-table {
+  @include flex();
+  flex-direction: column;
+  row-gap: 5px;
+
+  &__head-row {
+    min-height: 50px;
+    line-height: 50px;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  &__row {
+    border-top: 2px solid $main-color1;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+  
+  &::-webkit-scrollbar-track-piece {
+    background-color: $main-color1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    height: 50px;
+    background-color: $main-color2;
+    border-radius: 3px;
+  }
+}
+.table-row {
+  @include flex();
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  &__word-sound-btn {
+    flex-basis: 5%;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+    flex-shrink: 0;
+    @include mask("../../assets/svg/speaker-icon.svg", center, contain, no-repeat);
+    background-color: $main-color1;
+  }
+
+  &__word,
+  &__transcription,
+  &__translate {
+    flex-basis: 30%;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+
+  &__result-icon {
+    flex-basis: 5%;
+    flex-shrink: 0;
+
+    // &_incorrect {}
+  }
+}

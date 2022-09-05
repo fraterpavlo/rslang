@@ -39,8 +39,8 @@ table {
 
 // give standard styling to all ul and il that have a class attribute
 // Removing padding
-ul[class],
-ol[class] {
+ul,
+ol {
   padding: 0;
   list-style: none;
 }

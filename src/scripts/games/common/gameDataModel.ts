@@ -2,7 +2,6 @@ import { IWordData } from './commonInterfaces';
 
 export const baseUrl = 'https://rs-lang-rss-task.herokuapp.com';
 export const wordsUrl = `${baseUrl}/words`;
-// const users = `${baseUrl}/users`;
 
 export class GameDataModel {
   constructor() {}

@@ -17,7 +17,6 @@ export class Preloader extends Control {
 
   activate() {
     if (this.isActivated) return;
-    console.log('preloaderOn');
 
     this.parentNode.append(this.node);
     this.isActivated = true;
@@ -25,7 +24,6 @@ export class Preloader extends Control {
 
   deactivate() {
     if (!this.isActivated) return;
-    console.log('preloaderOff');
 
     this.destroy();
     this.isActivated = false;

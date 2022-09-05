@@ -18,6 +18,7 @@ export class GameFieldPage extends PageControl {
   onBack!: () => void;
   onHome!: () => void;
   onFinish!: (results: IAnswerData[], score: number) => void;
+  mainFieldWrapper: Control<HTMLElement>;
   currentQuestionIndex: number;
   private results: IAnswerData[];
   private wordsData: IWordDataWithAnswers[];
@@ -27,12 +28,11 @@ export class GameFieldPage extends PageControl {
   pointsForCorrectAnswer: number;
   pointsForCorrectAnswerIndicator: Control<HTMLElement>;
   correctAnswersCombinationData: TCorrectAnswersCombinationData;
-  private correctAnswersCombinationIndicator: Control<HTMLElement>;
+  private answersCombinationIndicatorsArr: Control<HTMLElement>[];
+  questionArea: Control<HTMLElement>;
   private questionView!: QuestionView;
   bindedWithThisKeyboardListener: (event: KeyboardEvent) => void;
   bindedWithThisQuestionAudioEndedListener!: () => void;
-  mainFieldWrapper: Control<HTMLElement>;
-  questionWrapper: Control<HTMLElement>;
 
   constructor(
     parentNode: HTMLElement,
@@ -60,12 +60,9 @@ export class GameFieldPage extends PageControl {
       'game-page__exit-buttons-wrapper',
     ]);
 
-    const backButton = new Control(
-      exitButtonsWrapper.node,
-      'button',
-      ['common-btn', 'game-page__back-btn'],
-      'back'
-    );
+    const backButton = new Control(exitButtonsWrapper.node, 'button', [
+      'game-page__back-btn',
+    ]);
     backButton.node.addEventListener(
       'click',
       () => {
@@ -74,12 +71,9 @@ export class GameFieldPage extends PageControl {
       { once: true }
     );
 
-    const homeButton = new Control(
-      exitButtonsWrapper.node,
-      'button',
-      ['common-btn', 'game-page__home-btn'],
-      'home'
-    );
+    const homeButton = new Control(exitButtonsWrapper.node, 'button', [
+      'game-page__home-btn',
+    ]);
     homeButton.node.addEventListener(
       'click',
       () => {
@@ -88,12 +82,9 @@ export class GameFieldPage extends PageControl {
       { once: true }
     );
 
-    const fullScreenButton = new Control(
-      headPanelWrapper.node,
-      'button',
-      ['common-btn', 'game-page__fullscreen-btn'],
-      'fullscreen'
-    );
+    const fullScreenButton = new Control(headPanelWrapper.node, 'button', [
+      'game-page__fullscreen-btn',
+    ]);
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     this.mainFieldWrapper = new Control(this.node, 'div', [
@@ -102,31 +93,42 @@ export class GameFieldPage extends PageControl {
     ]);
 
     this.timer = new Timer(this.mainFieldWrapper.node, 'div', [
-      'game-page__timer',
+      'main-field__timer',
     ]);
 
     this.scoreIndicator = new Control(
       this.mainFieldWrapper.node,
       'span',
-      ['scoreIndicator'],
+      ['main-field__score-indicator'],
       `Текущий результат: 0`
     );
 
     this.pointsForCorrectAnswerIndicator = new Control(
       this.mainFieldWrapper.node,
       'div',
-      ['pointsForCorrectAnswerIndicator'],
+      ['main-field__points-for-answer-indicator'],
       `Очков за слово +${this.pointsForCorrectAnswer}`
     );
 
-    this.correctAnswersCombinationIndicator = new Control(
+    this.answersCombinationIndicatorsArr = [];
+    const answersCombinationIndicatorsWrapper = new Control(
       this.mainFieldWrapper.node,
       'div',
-      ['correctAnswersCombinationIndicator']
+      [
+        'main-field__answers-combination-indicator-wrap',
+        'answers-combination-indicator',
+      ]
     );
+    for (let i = 0; i < 3; i++) {
+      this.answersCombinationIndicatorsArr.push(
+        new Control(answersCombinationIndicatorsWrapper.node, 'div', [
+          'answers-combination-indicator__item',
+        ])
+      );
+    }
 
-    this.questionWrapper = new Control(this.mainFieldWrapper.node, 'div', [
-      'game-page__question-wrapper',
+    this.questionArea = new Control(this.mainFieldWrapper.node, 'div', [
+      'main-field__question-area',
     ]);
 
     this.questionCycle();
@@ -136,10 +138,16 @@ export class GameFieldPage extends PageControl {
       this.onFinish(this.results, this.currentScore);
     };
 
-    const positiveAnswerBtn = new Control(
+    const answersButtonsWrapper = new Control(
       this.mainFieldWrapper.node,
+      'div',
+      ['main-field__answers-buttons-wrap']
+    );
+
+    const positiveAnswerBtn = new Control(
+      answersButtonsWrapper.node,
       'button',
-      ['common-btn', 'question-view__answer-btn'],
+      ['common-btn', 'main-field__correct-answer-btn'],
       'верно'
     );
     positiveAnswerBtn.node.addEventListener(
@@ -148,9 +156,9 @@ export class GameFieldPage extends PageControl {
     );
 
     const negativeAnswerBtn = new Control(
-      this.mainFieldWrapper.node,
+      answersButtonsWrapper.node,
       'button',
-      ['common-btn', 'question-view__answer-btn'],
+      ['common-btn', 'main-field__incorrect-answer-btn'],
       'неверно'
     );
     negativeAnswerBtn.node.addEventListener(
@@ -195,7 +203,7 @@ export class GameFieldPage extends PageControl {
 
   questionCycle() {
     this.questionView = new QuestionView(
-      this.questionWrapper.node,
+      this.questionArea.node,
       this.wordsData[this.currentQuestionIndex]
     );
   }
@@ -230,11 +238,22 @@ export class GameFieldPage extends PageControl {
   }
 
   uploadCorrectAnswersCombination(isCorrectCurrentAnswer: boolean) {
+    const renderAnswersCombinationIndicators = () => {
+      this.answersCombinationIndicatorsArr.forEach(
+        (indicatorItem: Control<HTMLElement>, idx: number) => {
+          this.correctAnswersCombinationData[idx]
+            ? indicatorItem.node.classList.add('correct-answer')
+            : indicatorItem.node.classList.remove('correct-answer');
+        }
+      );
+    };
+
     if (!isCorrectCurrentAnswer) {
       this.correctAnswersCombinationData = [false, false, false];
       this.pointsForCorrectAnswer =
         IGameSettings.defaultNumberOfPointsForCorrectAnswer;
       this.pointsForCorrectAnswerIndicator.node.textContent = `Очков за слово +${this.pointsForCorrectAnswer}`;
+      renderAnswersCombinationIndicators();
       return;
     }
 
@@ -254,10 +273,7 @@ export class GameFieldPage extends PageControl {
       this.correctAnswersCombinationData[indexOfFirstFalseItem] = true;
     }
 
-    this.correctAnswersCombinationIndicator.node.textContent =
-      this.correctAnswersCombinationData
-        .map((combinationItem: boolean) => (combinationItem ? '+' : '-'))
-        .join(' ');
+    renderAnswersCombinationIndicators();
   }
 
   keyboardListener(event: KeyboardEvent) {
@@ -279,7 +295,6 @@ export class GameFieldPage extends PageControl {
         this.onAnswer.bind(this, true);
         break;
       default:
-        console.log(`unusable key ${clickedKeyCode}`);
         return;
     }
   }

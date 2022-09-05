@@ -28,15 +28,6 @@ export interface IWordDataWithAnswers {
   answer: boolean;
 }
 
-//AudioChallengeSettingsModel
-// export interface IGameSettings {
-//   levelAmount: number;
-//   questionsInGameAmount: number;
-//   answersInRoundAmount: number;
-//   time: number;
-//   timeEnable: boolean;
-// }
-
 //SoundManagerClass
 export enum ELocalSoundsUrlList {
   applause = '../../assets/audio/applause.mp3',

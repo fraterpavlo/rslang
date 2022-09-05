@@ -21,12 +21,9 @@ export class CategoriesPage extends PageControl {
     const headPanelWrapper = new Control(this.node, 'div', [
       'categories-page__head-panel',
     ]);
-    const backButton = new Control(
-      headPanelWrapper.node,
-      'button',
-      ['common-btn', 'categories-page__button_back'],
-      'back'
-    );
+    const backButton = new Control(headPanelWrapper.node, 'button', [
+      'categories-page__button_back',
+    ]);
     backButton.node.addEventListener(
       'click',
       () => {
@@ -35,18 +32,44 @@ export class CategoriesPage extends PageControl {
       { once: true }
     );
 
-    const fullScreenButton = new Control(
-      headPanelWrapper.node,
-      'button',
-      ['common-btn', 'categories-page__fullscreen-btn'],
-      'fullscreen'
-    );
+    const fullScreenButton = new Control(headPanelWrapper.node, 'button', [
+      'categories-page__fullscreen-btn',
+    ]);
     fullScreenButton.node.addEventListener('click', this.toggleFullScreen);
 
     const mainField = new Control(this.node, 'div', [
       'categories-page__main-field',
       'main-field',
     ]);
+
+    new Control(
+      mainField.node,
+      'h1',
+      ['game-name-title', 'main-field__game-name-title'],
+      'Спринт'
+    );
+
+    const gameDescriptionWrapper = new Control(mainField.node, 'div', [
+      'main-field__game-description-wrap',
+      'game-description',
+    ]);
+    gameDescriptionWrapper.node.innerHTML = `
+      <p class="game-description__description">
+        «Спринт» - это игра, для повторения выученных слов.
+        Каждый раунд вам нужно ответить, верно ли переведено слово из вопроса. Слова разделены на
+        категории по возрастанию сложности. Выберите категорию.
+      </p>
+      <ul class="game-description__instructions-list instructions-list">
+        <li class="instructions-list__item">
+          Используйте мышь, чтобы выбрать.
+        </li>
+        <li class="instructions-list__item">
+          Используйте клавиши влево или вправо
+        </li>
+      </ul>
+    `;
+
+
     const categoriesContainer = new Control(mainField.node, 'div', [
       'main-field__categories-wrap',
       'categories',

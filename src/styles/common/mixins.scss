@@ -3,3 +3,9 @@
   display: -ms-flexbox;
   display: flex;
 }
+
+@mixin mask($url, $position, $size, $repeat) {
+  mask: url($url) $position / $size $repeat;
+  -moz-mask: url($url) $position / $size $repeat;
+  -webkit-mask: url($url) $position / $size $repeat;
+}
